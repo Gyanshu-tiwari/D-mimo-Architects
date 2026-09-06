@@ -86,7 +86,7 @@ export function SEO({ title, description, keywords, ogImage, ogType = "website" 
       metaTag.setAttribute("content", content);
     });
 
-  }, [title, description, keywords, ogImage, ogType, canonicalUrl]);
+  }, [title, description, keywords, ogImage, ogType, canonicalUrl, pageTitle]);
 
   return null;
 }

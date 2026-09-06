@@ -31,9 +31,9 @@
     --foreground: #12131f;
   }
   
-  html {
-    /* DO NOT set scroll-behavior: smooth — Lenis manages this */
-  }
+  /* html {
+    DO NOT set scroll-behavior: smooth — Lenis manages this 
+  } */
   
   body {
     background-color: var(--background);

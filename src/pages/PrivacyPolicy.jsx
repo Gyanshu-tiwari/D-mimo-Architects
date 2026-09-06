@@ -6,19 +6,19 @@ import { Text } from "@/components/primitives/Text";
 import { motion } from "motion/react";
 import { Lock, Eye, ArrowUpRight } from "lucide-react";
 
+const sections = [
+  { id: "overview", num: "01", title: "Overview & Scope" },
+  { id: "collection", num: "02", title: "Information We Collect" },
+  { id: "usage", num: "03", title: "How We Use Information" },
+  { id: "confidentiality", num: "04", title: "Client & Project Confidentiality" },
+  { id: "analytics", num: "05", title: "Cookies & Analytics" },
+  { id: "security", num: "06", title: "Data Security & Retention" },
+  { id: "rights", num: "07", title: "Your Privacy Rights" },
+  { id: "contact", num: "08", title: "Studio Contact Information" }
+];
+
 export default function PrivacyPolicy() {
   const [activeSection, setActiveSection] = useState("overview");
-
-  const sections = [
-    { id: "overview", num: "01", title: "Overview & Scope" },
-    { id: "collection", num: "02", title: "Information We Collect" },
-    { id: "usage", num: "03", title: "How We Use Information" },
-    { id: "confidentiality", num: "04", title: "Client & Project Confidentiality" },
-    { id: "analytics", num: "05", title: "Cookies & Analytics" },
-    { id: "security", num: "06", title: "Data Security & Retention" },
-    { id: "rights", num: "07", title: "Your Privacy Rights" },
-    { id: "contact", num: "08", title: "Studio Contact Information" }
-  ];
 
   useEffect(() => {
     const handleScroll = () => {

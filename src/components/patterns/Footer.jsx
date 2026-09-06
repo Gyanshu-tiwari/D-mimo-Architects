@@ -18,7 +18,7 @@ export function Footer() {
               <input 
                 type="email" 
                 placeholder="Email address" 
-                className="bg-transparent border-b border-b-white/20 px-2 py-3 w-full focus:outline-none focus:border-b-white transition-colors"
+                className="bg-transparent border-b border-gray-600 px-2 py-3 w-full focus:outline-none focus:border-white transition-colors"
                 required
               />
               <Button type="submit" variant="secondary" className="bg-white text-black shrink-0">

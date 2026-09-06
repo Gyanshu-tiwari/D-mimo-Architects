@@ -1,6 +1,6 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Trophy, Award, ChevronLeft, ChevronRight, Sparkles, ExternalLink, Calendar, Users, ShieldCheck } from "lucide-react";
+import { ChevronLeft, ChevronRight, Sparkles, Calendar, Users, ShieldCheck } from "lucide-react";
 import { Container } from "@/components/primitives/Container";
 import { Heading } from "@/components/primitives/Heading";
 import { Text } from "@/components/primitives/Text";
@@ -178,7 +178,7 @@ export function AwardsSection() {
             {/* Right Part: Modern Image Carousel with Light Dots (7 Cols) */}
             <div className="lg:col-span-7 flex flex-col gap-4">
               {/* Main Carousel Screen */}
-              <div className="relative w-full aspect-[4/3] sm:aspect-[16/11] rounded-xl sm:rounded-2xl overflow-hidden bg-neutral-900 shadow-sm border border-neutral-200/60 group">
+              <div className="relative w-full aspect-4/3 sm:aspect-16/11 rounded-xl sm:rounded-2xl overflow-hidden bg-neutral-900 shadow-sm border border-neutral-200/60 group">
                 <AnimatePresence initial={false} custom={direction} mode="wait">
                   <motion.div
                     key={currentIndex}
@@ -193,11 +193,11 @@ export function AwardsSection() {
                       src={activePhoto.src}
                       alt={activePhoto.title}
                       className="w-full h-full object-cover select-none"
-                      loading="eager"
+                      loading="lazy"
                     />
                     
                     {/* Subtle Gradient Scrim for Readability */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent pointer-events-none" />
+                    <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/20 to-transparent pointer-events-none" />
 
                     {/* Top Tag */}
                     <div className="absolute top-4 left-4 sm:top-5 sm:left-5 z-10">

@@ -18,13 +18,13 @@ export function LogosSection() {
       {/* Left Blur & Fade Edge Overlay */}
       <div 
         aria-hidden="true"
-        className="pointer-events-none absolute left-0 top-0 bottom-0 w-24 sm:w-44 z-10 bg-gradient-to-r from-white via-white/85 to-transparent backdrop-blur-[2px]" 
+        className="pointer-events-none absolute left-0 top-0 bottom-0 w-24 sm:w-44 z-10 bg-linear-to-r from-white via-white/85 to-transparent backdrop-blur-[2px]" 
       />
 
       {/* Right Blur & Fade Edge Overlay */}
       <div 
         aria-hidden="true"
-        className="pointer-events-none absolute right-0 top-0 bottom-0 w-24 sm:w-44 z-10 bg-gradient-to-l from-white via-white/85 to-transparent backdrop-blur-[3px]" 
+        className="pointer-events-none absolute right-0 top-0 bottom-0 w-24 sm:w-44 z-10 bg-linear-to-l from-white via-white/85 to-transparent backdrop-blur-[3px]" 
       />
 
       {/* Marquee Track Moving Right to Left */}

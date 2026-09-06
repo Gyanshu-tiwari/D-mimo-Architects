@@ -1,4 +1,5 @@
 import { useState } from "react";
+import emailjs from "@emailjs/browser";
 import { Link } from "react-router-dom";
 import { SEO } from "@/components/SEO";
 import { Section } from "@/components/primitives/Section";
@@ -20,20 +21,41 @@ export default function Contact() {
   const [acceptedTerms, setAcceptedTerms] = useState(false);
   const [shake, setShake] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!acceptedTerms) {
       setShake(true);
       setTimeout(() => setShake(false), 500);
       return;
     }
-    setSubmitted(true);
+    setIsSubmitting(true);
+    try {
+      await emailjs.send(
+        import.meta.env.VITE_SERVICE_ID,
+        import.meta.env.VITE_TEMPLATE_ID,
+        {
+          name: formData.name,
+          email: formData.email,
+          phone: formData.phone,
+          service: formData.service,
+          message: formData.message,
+        },
+        import.meta.env.VITE_PUBLIC_KEY
+      );
+      setSubmitted(true);
+    } catch (error) {
+      console.error("Failed to send email:", error);
+      alert("Failed to send message. Please try again later.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -146,7 +168,7 @@ export default function Contact() {
                       value={formData.name}
                       onChange={handleChange}
                       placeholder="Your full name"
-                      className="bg-white border border-gray-200 px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-black transition-shadow text-sm text-neutral-900 placeholder-neutral-400" 
+                      className="bg-white border border-gray-200 px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-black transition-shadow text-sm placeholder-neutral-400" 
                       required 
                     />
                   </div>
@@ -162,7 +184,7 @@ export default function Contact() {
                         value={formData.email}
                         onChange={handleChange}
                         placeholder="name@example.com"
-                        className="bg-white border border-gray-200 px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-black transition-shadow text-sm text-neutral-900 placeholder-neutral-400" 
+                        className="bg-white border border-gray-200 px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-black transition-shadow text-sm placeholder-neutral-400" 
                         required 
                       />
                     </div>
@@ -175,7 +197,7 @@ export default function Contact() {
                         value={formData.phone}
                         onChange={handleChange}
                         placeholder="+91 98765 43210"
-                        className="bg-white border border-gray-200 px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-black transition-shadow text-sm text-neutral-900 placeholder-neutral-400" 
+                        className="bg-white border border-gray-200 px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-black transition-shadow text-sm placeholder-neutral-400" 
                         required 
                       />
                     </div>
@@ -214,7 +236,7 @@ export default function Contact() {
                       value={formData.message}
                       onChange={handleChange}
                       placeholder="Tell us about your project, timeline, and requirements..."
-                      className="bg-white border border-gray-200 px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-black transition-shadow resize-none text-sm text-neutral-900 placeholder-neutral-400" 
+                      className="bg-white border border-gray-200 px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-black transition-shadow resize-none text-sm placeholder-neutral-400" 
                       required
                     ></textarea>
                   </div>
@@ -265,8 +287,8 @@ export default function Contact() {
                     </label>
                   </motion.div>
 
-                  <Button type="submit" className="mt-2 w-full sm:w-auto h-11 px-8">
-                    Send message
+                  <Button type="submit" className="mt-2 w-full sm:w-auto h-11 px-8" disabled={isSubmitting}>
+                    {isSubmitting ? "Sending..." : "Send message"}
                   </Button>
                 </form>
               )}

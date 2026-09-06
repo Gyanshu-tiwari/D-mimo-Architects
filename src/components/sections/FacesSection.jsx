@@ -78,6 +78,7 @@ export function FacesSection() {
                 src="/images/main.avif"
                 alt="Founder & Principal Architect - Ar. Hritik Mishra"
                 className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                loading="lazy"
               />
               
               <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/20 to-transparent pointer-events-none"></div>

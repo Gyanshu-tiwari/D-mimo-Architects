@@ -15,17 +15,7 @@ export default function NotFound() {
         keywords="404, not found, d mimo architects, architecture portfolio"
       />
 
-      {/* Subtle Architectural Blueprint Grid Background */}
-      <div 
-        className="absolute inset-0 opacity-25 pointer-events-none"
-        style={{
-          backgroundImage: `
-            linear-gradient(to right, rgba(255, 255, 255, 0.08) 1px, transparent 1px),
-            linear-gradient(to bottom, rgba(255, 255, 255, 0.08) 1px, transparent 1px)
-          `,
-          backgroundSize: "48px 48px",
-        }}
-      />
+
 
       {/* Ambient Gradient Glow */}
       <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-125 h-125 bg-neutral-800/20 blur-[140px] rounded-full pointer-events-none" />

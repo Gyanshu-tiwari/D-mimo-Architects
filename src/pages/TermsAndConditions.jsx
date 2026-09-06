@@ -4,22 +4,22 @@ import { Container } from "@/components/primitives/Container";
 import { Heading } from "@/components/primitives/Heading";
 import { Text } from "@/components/primitives/Text";
 import { motion } from "motion/react";
-import { ArrowUpRight, Compass, FileCheck, Layers, Scale } from "lucide-react";
+import { ArrowUpRight, Compass, Layers } from "lucide-react";
+
+const sections = [
+  { id: "acceptance", num: "01", title: "Acceptance of Terms" },
+  { id: "services", num: "02", title: "Architectural Services" },
+  { id: "ip", num: "03", title: "Intellectual Property & Drawings" },
+  { id: "proposals", num: "04", title: "Proposals & Fees" },
+  { id: "responsibilities", num: "05", title: "Client Approvals & Site Access" },
+  { id: "photography", num: "06", title: "Photography & Media Rights" },
+  { id: "liability", num: "07", title: "Limitation of Liability" },
+  { id: "governing", num: "08", title: "Governing Law & Jurisdiction" },
+  { id: "contact", num: "09", title: "Studio Inquiries" }
+];
 
 export default function TermsAndConditions() {
   const [activeSection, setActiveSection] = useState("acceptance");
-
-  const sections = [
-    { id: "acceptance", num: "01", title: "Acceptance of Terms" },
-    { id: "services", num: "02", title: "Architectural Services" },
-    { id: "ip", num: "03", title: "Intellectual Property & Drawings" },
-    { id: "proposals", num: "04", title: "Proposals & Fees" },
-    { id: "responsibilities", num: "05", title: "Client Approvals & Site Access" },
-    { id: "photography", num: "06", title: "Photography & Media Rights" },
-    { id: "liability", num: "07", title: "Limitation of Liability" },
-    { id: "governing", num: "08", title: "Governing Law & Jurisdiction" },
-    { id: "contact", num: "09", title: "Studio Inquiries" }
-  ];
 
   useEffect(() => {
     const handleScroll = () => {

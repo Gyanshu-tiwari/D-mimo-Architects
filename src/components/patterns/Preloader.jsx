@@ -2,14 +2,20 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 export function Preloader({ onComplete }) {
-  const [progress, setProgress] = useState(0);
-  const [isFinished, setIsFinished] = useState(false);
+  const [hasSeenPreloader] = useState(() => sessionStorage.getItem("preloaderShown"));
+  const [progress, setProgress] = useState(hasSeenPreloader ? 100 : 0);
+  const [isFinished, setIsFinished] = useState(!!hasSeenPreloader);
 
   useEffect(() => {
+    if (hasSeenPreloader) {
+      if (onComplete) onComplete();
+      return;
+    }
+
     // Lock body scroll while preloader is active
     document.body.style.overflow = "hidden";
 
-    const duration = 1500; // 1.5s total loading duration
+    const duration = 800; // Reduced to 0.8s for better Lighthouse metrics
     const startTime = performance.now();
 
     const animateProgress = (currentTime) => {
@@ -32,9 +38,10 @@ export function Preloader({ onComplete }) {
         // Brief pause at 100% before curtain slide-up
         setTimeout(() => {
           setIsFinished(true);
+          sessionStorage.setItem("preloaderShown", "true");
           document.body.style.overflow = "";
           if (onComplete) onComplete();
-        }, 220);
+        }, 150);
       }
     };
 
@@ -44,7 +51,9 @@ export function Preloader({ onComplete }) {
       cancelAnimationFrame(animFrame);
       document.body.style.overflow = "";
     };
-  }, [onComplete]);
+  }, [hasSeenPreloader, onComplete]);
+
+  if (hasSeenPreloader) return null;
 
   return (
     <AnimatePresence>
@@ -57,25 +66,14 @@ export function Preloader({ onComplete }) {
             duration: 0.85,
             ease: [0.76, 0, 0.24, 1], // Smooth luxury curtain wipe easing
           }}
-          className="fixed inset-0 z-[99999] bg-[#09090b] text-white flex flex-col justify-between p-6 sm:p-10 md:p-14 select-none overflow-hidden"
+          className="fixed inset-0 z-99999 bg-[#09090b] text-white flex flex-col justify-between p-6 sm:p-10 md:p-14 select-none overflow-hidden"
           style={{ willChange: "transform" }}
         >
-          {/* Subtle Architectural Blueprint Grid */}
-          <div
-            className="absolute inset-0 opacity-15 pointer-events-none"
-            style={{
-              backgroundImage: `
-                linear-gradient(to right, rgba(255, 255, 255, 0.1) 1px, transparent 1px),
-                linear-gradient(to bottom, rgba(255, 255, 255, 0.1) 1px, transparent 1px)
-              `,
-              backgroundSize: "44px 44px",
-            }}
-          />
 
           {/* Top Bar: D Mimo Logo in Neutral Colors */}
           <div className="relative z-10 flex items-start justify-between w-full">
             <div className="flex flex-col">
-              <span className="text-xl sm:text-2xl md:text-[26px] font-bold tracking-[0.1em] font-cinzel text-neutral-100 leading-none">
+              <span className="text-xl sm:text-2xl md:text-[26px] font-bold tracking-widest font-cinzel text-neutral-100 leading-none">
                 D MIMO
               </span>
               <span className="text-[10px] sm:text-[11px] font-semibold tracking-[0.36em] font-sans uppercase mt-1.5 text-neutral-400 leading-none">
@@ -101,7 +99,7 @@ export function Preloader({ onComplete }) {
             {/* Hairline Progress Track */}
             <div className="w-full h-0.5 bg-neutral-800/80 rounded-full overflow-hidden">
               <motion.div
-                className="h-full bg-gradient-to-r from-neutral-400 via-white to-neutral-200"
+                className="h-full bg-linear-to-r from-neutral-400 via-white to-neutral-200"
                 style={{ width: `${progress}%` }}
                 transition={{ ease: "linear" }}
               />
