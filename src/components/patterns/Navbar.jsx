@@ -216,7 +216,7 @@ export function Navbar() {
 
               <div className="pt-4 mt-52 border-t border-gray-100 flex flex-col gap-4">
                 <a 
-                  href="https://instagram.com" 
+                  href="https://instagram.com/d_mimo_architects/" 
                   target="_blank" 
                   rel="noopener noreferrer"
                   className="text-xl font-medium text-neutral-500 hover:text-black transition-colors"
