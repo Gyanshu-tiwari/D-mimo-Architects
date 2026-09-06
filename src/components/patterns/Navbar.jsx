@@ -64,6 +64,9 @@ export function Navbar() {
           <div className="flex-1 flex items-center">
             <Link
               to="/"
+              onClick={() => {
+                if (isHomePage) window.scrollTo({ top: 0, behavior: 'smooth' });
+              }}
               className="inline-flex items-center gap-3 group focus:outline-none"
               aria-label="D Mimo Architects Home"
             >
@@ -171,7 +174,10 @@ export function Navbar() {
               <Link 
                 to="/" 
                 className="inline-flex items-center gap-3" 
-                onClick={() => setMobileMenuOpen(false)}
+                onClick={() => {
+                  if (isHomePage) window.scrollTo({ top: 0, behavior: 'smooth' });
+                  setMobileMenuOpen(false);
+                }}
                 aria-label="D Mimo Architects"
               >
                 <img
@@ -207,6 +213,17 @@ export function Navbar() {
                   {link.name}
                 </Link>
               ))}
+
+              <div className="pt-4 mt-2 border-t border-gray-100 flex flex-col gap-4">
+                <a 
+                  href="https://instagram.com" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="text-xl font-medium text-neutral-500 hover:text-black transition-colors"
+                >
+                  Instagram
+                </a>
+              </div>
             </nav>
           </motion.div>
         )}
