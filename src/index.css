@@ -1,0 +1,93 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: 'Inter', sans-serif;
+  --font-display: 'Urbanist', sans-serif;
+  --font-serif: 'Cinzel', serif;
+  --font-cinzel: 'Cinzel', serif;
+  
+  /* Based on scraped sizes: */
+  --text-base: 18px;
+  --text-lg: 20px;
+  --text-xl: 23px; /* h6 */
+  --text-2xl: 25px; /* h5 */
+  --text-3xl: 30px; /* h4 */
+  --text-4xl: 40px;
+  --text-5xl: 54px; /* h2 */
+  --text-6xl: 66px; /* h1 */
+  --text-7xl: 86px; /* h3 */
+
+  --color-base-white: #ffffff;
+  --color-base-light: #f5f6f7;
+  --color-base-dark: #101014;
+
+  --color-text-primary: #0a0b12;
+  --color-text-inverse: #ffffff;
+}
+
+@layer base {
+  :root {
+    --background: #ffffff;
+    --foreground: #12131f;
+  }
+  
+  html {
+    /* DO NOT set scroll-behavior: smooth — Lenis manages this */
+  }
+  
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  .font-display {
+    letter-spacing: 0.015em;
+  }
+
+  /* Respect reduced motion preferences for CSS transitions */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+
+  /* Smooth image rendering */
+  img {
+    display: block;
+    max-width: 100%;
+  }
+}
+
+@keyframes marquee {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee-fast {
+  display: flex;
+  width: max-content;
+  animation: marquee 24s linear infinite;
+  will-change: transform;
+}
+
+.animate-marquee-slow {
+  display: flex;
+  width: max-content;
+  animation: marquee 42s linear infinite;
+  will-change: transform;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .animate-marquee-fast:hover,
+  .animate-marquee-slow:hover {
+    animation-play-state: paused;
+  }
+}
