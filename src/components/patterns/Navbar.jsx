@@ -214,7 +214,7 @@ export function Navbar() {
                 </Link>
               ))}
 
-              <div className="pt-4 mt-15 border-t border-gray-100 flex flex-col gap-4">
+              <div className="pt-4 mt-52 border-t border-gray-100 flex flex-col gap-4">
                 <a 
                   href="https://instagram.com" 
                   target="_blank" 
