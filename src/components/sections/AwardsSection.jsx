@@ -179,6 +179,12 @@ export function AwardsSection() {
             <div className="lg:col-span-7 flex flex-col gap-4">
               {/* Main Carousel Screen */}
               <div className="relative w-full aspect-4/3 sm:aspect-16/11 rounded-xl sm:rounded-2xl overflow-hidden bg-neutral-900 shadow-sm border border-neutral-200/60 group">
+                {/* Preload all images invisibly to prevent flicker */}
+                <div className="hidden">
+                  {awardPhotos.map((photo, i) => (
+                    <img key={i} src={photo.src} alt="preload" loading="eager" fetchPriority="low" />
+                  ))}
+                </div>
                 <AnimatePresence initial={false} custom={direction} mode="wait">
                   <motion.div
                     key={currentIndex}
@@ -193,7 +199,9 @@ export function AwardsSection() {
                       src={activePhoto.src}
                       alt={activePhoto.title}
                       className="w-full h-full object-cover select-none"
-                      loading="lazy"
+                      loading="eager"
+                      fetchPriority="high"
+                      decoding="sync"
                     />
                     
                     {/* Subtle Gradient Scrim for Readability */}

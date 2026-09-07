@@ -20,7 +20,7 @@ export function FacesSection() {
               transition={{ duration: 0.6 }}
               className="mb-10 md:mb-14"
             >
-              <Heading as="h2" className="text-3xl sm:text-4xl md:text-5xl lg:text-[3.25rem] leading-[1.1] tracking-[0.015em] font-medium">
+              <Heading as="h2" className="text-4xl sm:text-5xl md:text-6xl lg:text-[4.5rem] leading-[1.1] tracking-[0.015em] font-medium">
                 <span className="text-[#111827]">The face </span>
                 <span className="text-gray-400">behind<br />the projects.</span>
               </Heading>
@@ -63,7 +63,7 @@ export function FacesSection() {
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true, margin: "-80px" }}
             transition={{ duration: 0.6, delay: 0.25 }}
-            className="w-full sm:w-90 lg:w-85 xl:w-92.5 shrink-0 mx-auto lg:mx-0"
+            className="w-full max-w-[320px] sm:max-w-[380px] lg:max-w-[420px] xl:max-w-[480px] shrink-0 mx-auto lg:mx-0"
           >
             <div className="relative overflow-hidden rounded-2xl md:rounded-3xl aspect-4/5 bg-gray-100 group shadow-[0_12px_36px_-15px_rgba(0,0,0,0.12)] border border-neutral-200/80">
               <div className="absolute top-5 left-5 bg-black/60 backdrop-blur-md w-6 h-6 rounded-full z-10 flex items-center justify-center">
@@ -78,7 +78,9 @@ export function FacesSection() {
                 src="/images/main.avif"
                 alt="Founder & Principal Architect - Ar. Hritik Mishra"
                 className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
-                loading="lazy"
+                loading="eager"
+                fetchPriority="high"
+                decoding="async"
               />
               
               <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/20 to-transparent pointer-events-none"></div>
