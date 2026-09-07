@@ -181,7 +181,7 @@ export function AwardsSection() {
               <div className="relative w-full aspect-4/3 sm:aspect-16/11 rounded-xl sm:rounded-2xl overflow-hidden bg-neutral-900 shadow-sm border border-neutral-200/60 group">
                 {/* Preload all images invisibly to prevent flicker */}
                 <div className="hidden">
-                  {awardPhotos.map((photo, i) => (
+                  {ceremonyPhotos.map((photo, i) => (
                     <img key={i} src={photo.src} alt="preload" loading="eager" fetchPriority="low" />
                   ))}
                 </div>
