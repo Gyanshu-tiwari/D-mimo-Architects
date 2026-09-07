@@ -1,13 +1,13 @@
-import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
 
 export function SEO({ title, description, keywords, ogImage, ogType = "website" }) {
   const location = useLocation();
-  const canonicalUrl = `${window.location.origin}${location.pathname}`;
+  const canonicalUrl = typeof window !== 'undefined' ? `${window.location.origin}${location.pathname}` : `https://www.dmimoarchitects.com${location.pathname}`;
 
   const BRAND_NAME = "D Mimo Architects";
 
-  // Compute clean page title: prevents any accidental duplication
+  // Compute clean page title
   let pageTitle = BRAND_NAME;
   if (title && title.trim() && title.trim() !== BRAND_NAME) {
     if (title.includes(BRAND_NAME)) {
@@ -15,78 +15,30 @@ export function SEO({ title, description, keywords, ogImage, ogType = "website" 
     } else {
       pageTitle = `${title.trim()} | ${BRAND_NAME}`;
     }
-  } else {
-    pageTitle = BRAND_NAME;
   }
 
-  useEffect(() => {
-    // 1. Update Title
-    document.title = pageTitle;
+  // Default SEO Values
+  const defaultDescription = "D Mimo Architects designs timeless, modern, and intentional residential and commercial interior spaces. Expert interior styling and renovation.";
+  const finalDescription = description || defaultDescription;
+  const finalImage = ogImage || "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&q=80&w=1200";
 
-    // 2. Update Meta Description
-    let metaDescription = document.querySelector('meta[name="description"]');
-    if (!metaDescription) {
-      metaDescription = document.createElement("meta");
-      metaDescription.setAttribute("name", "description");
-      document.head.appendChild(metaDescription);
-    }
-    metaDescription.setAttribute("content", description || "D Mimo Architects designs timeless, modern, and intentional residential and commercial interior spaces. Expert interior styling and renovation.");
+  return (
+    <Helmet>
+      <title>{pageTitle}</title>
+      <meta name="description" content={finalDescription} />
+      {keywords && <meta name="keywords" content={keywords} />}
+      <link rel="canonical" href={canonicalUrl} />
 
-    // 3. Update Meta Keywords
-    let metaKeywords = document.querySelector('meta[name="keywords"]');
-    if (!metaKeywords) {
-      metaKeywords = document.createElement("meta");
-      metaKeywords.setAttribute("name", "keywords");
-      document.head.appendChild(metaKeywords);
-    }
-    metaKeywords.setAttribute("content", keywords || "interior design, architects, modern home styling, home renovation, commercial interiors");
+      <meta property="og:title" content={pageTitle} />
+      <meta property="og:description" content={finalDescription} />
+      <meta property="og:type" content={ogType} />
+      <meta property="og:url" content={canonicalUrl} />
+      <meta property="og:image" content={finalImage} />
 
-    // 4. Update Canonical Link
-    let linkCanonical = document.querySelector('link[rel="canonical"]');
-    if (!linkCanonical) {
-      linkCanonical = document.createElement("link");
-      linkCanonical.setAttribute("rel", "canonical");
-      document.head.appendChild(linkCanonical);
-    }
-    linkCanonical.setAttribute("href", canonicalUrl);
-
-    // 5. Update Open Graph Tags
-    const ogTags = {
-      "og:title": pageTitle,
-      "og:description": description || "D Mimo Architects designs timeless, modern, and intentional residential and commercial interior spaces.",
-      "og:url": canonicalUrl,
-      "og:type": ogType,
-      "og:image": ogImage || "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&q=80&w=1200",
-    };
-
-    Object.entries(ogTags).forEach(([property, content]) => {
-      let metaTag = document.querySelector(`meta[property="${property}"]`);
-      if (!metaTag) {
-        metaTag = document.createElement("meta");
-        metaTag.setAttribute("property", property);
-        document.head.appendChild(metaTag);
-      }
-      metaTag.setAttribute("content", content);
-    });
-
-    // 6. Update Twitter Tags
-    const twitterTags = {
-      "twitter:title": pageTitle,
-      "twitter:description": description || "D Mimo Architects designs timeless, modern, and intentional residential and commercial interior spaces.",
-      "twitter:image": ogImage || "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&q=80&w=1200",
-    };
-
-    Object.entries(twitterTags).forEach(([property, content]) => {
-      let metaTag = document.querySelector(`meta[property="${property}"]`);
-      if (!metaTag) {
-        metaTag = document.createElement("meta");
-        metaTag.setAttribute("property", property);
-        document.head.appendChild(metaTag);
-      }
-      metaTag.setAttribute("content", content);
-    });
-
-  }, [title, description, keywords, ogImage, ogType, canonicalUrl, pageTitle]);
-
-  return null;
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:title" content={pageTitle} />
+      <meta name="twitter:description" content={finalDescription} />
+      <meta name="twitter:image" content={finalImage} />
+    </Helmet>
+  );
 }
