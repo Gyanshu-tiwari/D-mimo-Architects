@@ -29,10 +29,17 @@
     <!-- Preconnect to image CDN -->
     <link rel="preconnect" href="https://images.unsplash.com" />
     
-    <!-- Google Fonts -->
+    <!-- Google Fonts (Optimized Async Loading) -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Inter:ital,wght@0,100..900;1,100..900&family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet" />
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Inter:ital,wght@0,100..900;1,100..900&family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap" as="style" />
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Inter:ital,wght@0,100..900;1,100..900&family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
+    <noscript>
+      <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Inter:ital,wght@0,100..900;1,100..900&family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet" />
+    </noscript>
+
+    <!-- Preload Hero Image for LCP Optimization -->
+    <link rel="preload" as="image" href="https://images.unsplash.com/photo-1664711942326-2c3351e215e6?q=70&w=1600&auto=format&fit=crop" />
   </head>
   <body>
     <div id="root"></div>

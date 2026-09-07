@@ -16,12 +16,12 @@ export function HeroSection() {
         transition={{ duration: 1.2, ease: "easeOut" }}
       >
         <img
-          src="https://images.unsplash.com/photo-1664711942326-2c3351e215e6?q=80&w=2400&auto=format&fit=crop"
+          src="https://images.unsplash.com/photo-1664711942326-2c3351e215e6?q=70&w=1600&auto=format&fit=crop"
           alt="Refined interior space"
           className="w-full h-full object-cover opacity-60"
           loading="eager"
           fetchPriority="high"
-          decoding="async"
+          decoding="sync"
         />
         <div className="absolute inset-0 bg-black/30" />
       </motion.div>
@@ -60,18 +60,21 @@ export function HeroSection() {
               <div className="flex -space-x-2.5">
                 <img
                   className="inline-block h-9 w-9 shrink-0 aspect-square rounded-full ring-2 ring-white/20 object-cover"
-                  src="https://images.unsplash.com/photo-1649532355244-e011eebe7a81?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NDF8fGZvcm1hbCUyMG1hbnxlbnwwfHwwfHx8MA%3D%3D"
+                  src="https://images.unsplash.com/photo-1649532355244-e011eebe7a81?w=120&auto=format&fit=crop&q=60"
                   alt="Client 1"
+                  loading="lazy"
                 />
                 <img
                   className="inline-block h-9 w-9 shrink-0 aspect-square rounded-full ring-2 ring-white/20 object-cover"
-                  src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80&w=120"
+                  src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=120&auto=format&fit=crop&q=60"
                   alt="Client 2"
+                  loading="lazy"
                 />
                 <img
                   className="inline-block h-9 w-9 shrink-0 aspect-square rounded-full ring-2 ring-white/20 object-cover"
-                  src="https://images.unsplash.com/photo-1622020920816-cd528763211a?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTF8fGZvcm1hbCUyMG1hbnxlbnwwfHwwfHx8MA%3D%3D"
+                  src="https://images.unsplash.com/photo-1622020920816-cd528763211a?w=120&auto=format&fit=crop&q=60"
                   alt="Client 3"
+                  loading="lazy"
                 />
               </div>
               <Text size="xs" className="text-white/90 font-light leading-snug">
