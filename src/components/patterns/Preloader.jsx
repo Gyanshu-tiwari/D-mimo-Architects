@@ -1,10 +1,22 @@
-import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { useState, useEffect, useLayoutEffect } from "react";
+import { motion, AnimatePresence } from "motion/react";
 
 export function Preloader({ onComplete }) {
   const [hasSeenPreloader] = useState(() => sessionStorage.getItem("preloaderShown"));
   const [progress, setProgress] = useState(hasSeenPreloader ? 100 : 0);
   const [isFinished, setIsFinished] = useState(!!hasSeenPreloader);
+
+  // ── Preloader flash prevention ─────────────────────────────────────────────
+  // index.html ships <style id="preload-shield">#root{visibility:hidden}</style>
+  // to prevent the prerendered hero from flashing before this component paints.
+  // useLayoutEffect fires synchronously BEFORE the browser paints, so we remove
+  // the shield and restore visibility at the exact right moment — zero flicker.
+  useLayoutEffect(() => {
+    const shield = document.getElementById("preload-shield");
+    if (shield) shield.remove();
+    const root = document.getElementById("root");
+    if (root) root.style.visibility = "visible";
+  }, []);
 
   useEffect(() => {
     if (hasSeenPreloader) {
@@ -15,7 +27,7 @@ export function Preloader({ onComplete }) {
     // Lock body scroll while preloader is active
     document.body.style.overflow = "hidden";
 
-    const duration = 800; // Reduced to 0.8s for better Lighthouse metrics
+    const duration = 800; // 0.8s for better Lighthouse metrics
     const startTime = performance.now();
 
     const animateProgress = (currentTime) => {
@@ -65,13 +77,12 @@ export function Preloader({ onComplete }) {
           exit={{ y: "-100%" }}
           transition={{
             duration: 0.85,
-            ease: [0.76, 0, 0.24, 1], // Smooth luxury curtain wipe easing
+            ease: [0.76, 0, 0.24, 1],
           }}
           className="fixed inset-0 z-99999 bg-[#09090b] text-white flex flex-col justify-between p-6 sm:p-10 md:p-14 select-none overflow-hidden"
           style={{ willChange: "transform" }}
         >
-
-          {/* Top Bar: D Mimo Logo in Neutral Colors */}
+          {/* Top Bar: D Mimo Logo */}
           <div className="relative z-10 flex items-start justify-between w-full">
             <div className="flex flex-col">
               <span className="text-xl sm:text-2xl md:text-[26px] font-bold tracking-widest font-cinzel text-neutral-100 leading-none">
@@ -83,10 +94,9 @@ export function Preloader({ onComplete }) {
             </div>
           </div>
 
-          {/* Bottom Bar: Percentage Counter & Hairline Progress Bar */}
+          {/* Bottom Bar: Percentage Counter & Progress Bar */}
           <div className="relative z-10 w-full space-y-4">
             <div className="flex items-end justify-end">
-              {/* Large Percentage Counter in Urbanist Font */}
               <div className="flex items-baseline">
                 <span className="font-display text-6xl sm:text-8xl md:text-9xl font-light tracking-[0.015em] text-neutral-100 tabular-nums leading-none">
                   {progress}

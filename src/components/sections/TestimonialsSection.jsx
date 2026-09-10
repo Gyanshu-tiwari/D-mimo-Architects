@@ -1,3 +1,4 @@
+import { useInView } from "@/hooks/useInView";
 import { Container } from "@/components/primitives/Container";
 import { Heading } from "@/components/primitives/Heading";
 import { Text } from "@/components/primitives/Text";
@@ -42,17 +43,13 @@ export function TestimonialsSection() {
   // Duplicate for seamless infinite marquee loop
   const testimonials = [...baseTestimonials, ...baseTestimonials];
 
+  const { ref: headerRef, isInView: headerInView } = useInView({ margin: '-80px' });
+
   return (
     <Section className="cv-auto bg-base-dark text-white overflow-hidden relative py-16 md:py-24">
       <Container>
-        <div className="flex flex-col items-center text-center mb-10 sm:mb-14 lg:mb-16">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.6 }}
-            className="max-w-2xl"
-          >
+        <div ref={headerRef} className="flex flex-col items-center text-center mb-10 sm:mb-14 lg:mb-16">
+          <div className={`fade-up${headerInView ? ' is-visible' : ''} max-w-2xl`}>
             <Text className="text-xs sm:text-sm font-semibold tracking-widest uppercase mb-4 sm:mb-6 text-white/50">
               // Testimonials
             </Text>
@@ -62,7 +59,7 @@ export function TestimonialsSection() {
             <Text className="text-white/85 font-normal text-sm sm:text-base max-w-xl mx-auto">
               Thoughtful interiors delivered through clear communication, refined execution, and long-term design value.
             </Text>
-          </motion.div>
+          </div>
         </div>
       </Container>
 

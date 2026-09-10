@@ -1,9 +1,9 @@
+import { useInView } from "@/hooks/useInView";
 import { Container } from "@/components/primitives/Container";
 import { Heading } from "@/components/primitives/Heading";
 import { Text } from "@/components/primitives/Text";
 import { Section } from "@/components/primitives/Section";
 import { Button } from "@/components/primitives/Button";
-import { motion } from "motion/react";
 import { Link } from "react-router-dom";
 
 export function WorksSection() {
@@ -34,17 +34,14 @@ export function WorksSection() {
     }
   ];
 
+  const { ref: headerRef, isInView: headerInView } = useInView({ margin: "-100px" });
+  const { ref: gridRef, isInView: gridInView } = useInView({ margin: "-50px" });
+
   return (
     <Section className="bg-white">
       <Container>
-        <div className="flex flex-col md:flex-row gap-6 justify-between items-end mb-8 md:mb-12">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.6 }}
-            className="max-w-2xl"
-          >
+        <div ref={headerRef} className="flex flex-col md:flex-row gap-6 justify-between items-end mb-8 md:mb-12">
+          <div className={`fade-up max-w-2xl${headerInView ? " is-visible" : ""}`}>
             <Text className="text-sm font-semibold tracking-widest uppercase mb-4 text-gray-500">
               // Featured work
             </Text>
@@ -54,27 +51,19 @@ export function WorksSection() {
             <Text className="text-gray-600 text-base sm:text-lg">
               A curated selection of residential and commercial projects showcasing our approach to space design.
             </Text>
-          </motion.div>
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-          >
+          </div>
+          <div className={`fade-up delay-2${headerInView ? " is-visible" : ""}`}>
             <Button asChild variant="secondary" className="rounded-full px-6 py-2.5 border border-neutral-300 bg-white text-neutral-900 font-semibold hover:border-neutral-900 hover:bg-neutral-900 hover:text-white transition-all shadow-xs">
               <Link to="/projects">All works</Link>
             </Button>
-          </motion.div>
+          </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-16">
+        <div ref={gridRef} className="grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-16">
           {works.map((work, i) => (
-            <motion.div
+            <div
               key={work.title}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-50px" }}
-              transition={{ duration: 0.6, delay: i * 0.1 }}
+              className={`fade-up${gridInView ? ` is-visible delay-${i + 1}` : ""}`}
             >
               <Link to={work.link} className="group cursor-pointer flex flex-col h-full">
                 <div className="relative overflow-hidden aspect-4/3 mb-6">
@@ -91,7 +80,7 @@ export function WorksSection() {
                 <Heading as="h5" className="mb-2 group-hover:text-gray-600 transition-colors">{work.title}</Heading>
                 <Text className="text-gray-600">{work.desc}</Text>
               </Link>
-            </motion.div>
+            </div>
           ))}
         </div>
       </Container>

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useInView } from "@/hooks/useInView";
 import { Container } from "@/components/primitives/Container";
 import { Heading } from "@/components/primitives/Heading";
 import { Text } from "@/components/primitives/Text";
@@ -34,17 +35,15 @@ export function FAQSection() {
   ];
 
   const [openIndex, setOpenIndex] = useState(0);
+  const { ref: leftRef, isInView: leftInView } = useInView({ margin: '-100px' });
 
   return (
     <Section className="cv-auto bg-white">
       <Container>
         <div className="flex flex-col lg:flex-row gap-16 lg:gap-24 items-start">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.6 }}
-            className="lg:w-1/3"
+          <div
+            ref={leftRef}
+            className={`fade-up lg:w-1/3${leftInView ? ' is-visible' : ''}`}
           >
             <Text className="text-sm font-semibold tracking-widest uppercase mb-4 text-gray-500">
               // FAQ
@@ -58,7 +57,7 @@ export function FAQSection() {
             <Button asChild variant="secondary" className="rounded-full px-6 py-2.5 border border-neutral-900 bg-neutral-900 text-white font-semibold hover:bg-black hover:border-black transition-all shadow-sm">
               <Link to="/contact">Contact us</Link>
             </Button>
-          </motion.div>
+          </div>
 
           <div className="lg:w-2/3 flex flex-col w-full">
             {faqs.map((faq, i) => {

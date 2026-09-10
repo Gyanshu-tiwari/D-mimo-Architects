@@ -23,33 +23,34 @@ export function SmoothScroll({ children }) {
       ? window.matchMedia('(prefers-reduced-motion: reduce)').matches
       : false;
 
-  useEffect(() => {
-    if (prefersReducedMotion) return;
+  // Touch-only devices (mobile/tablet with no mouse) already have excellent
+  // native scroll physics. Lenis on touch adds RAF overhead with no visible
+  // benefit and consumes extra battery. Only enable on pointer:fine (mouse).
+  const isTouchOnly =
+    typeof window !== 'undefined'
+      ? window.matchMedia('(pointer: coarse) and (hover: none)').matches
+      : false;
 
-    // ─── 1. GSAP Ticker → Lenis sync ───────────────────────────────────────
-    // Drive Lenis exclusively from GSAP's RAF loop.
-    // Multiply by 1000 because GSAP passes seconds; Lenis expects ms.
+  const skipLenis = prefersReducedMotion || isTouchOnly;
+
+  useEffect(() => {
+    if (skipLenis) return;
+
+    // ─── 1. GSAP Ticker → Lenis sync ──────────────────────────────────────────────
     const tickerUpdate = (time) => {
       lenisRef.current?.lenis?.raf(time * 1000);
     };
     gsap.ticker.add(tickerUpdate);
-
-    // Eliminate GSAP lag-smoothing jumps during network-induced main-thread stalls
     gsap.ticker.lagSmoothing(0);
 
-    // ─── 2. Debounced ScrollTrigger.refresh() after images finish loading ───
-    // When lazy images trickle in on slow/throttled networks, they change the
-    // document height. We must recalculate all ST trigger positions.
+    // ─── 2. Debounced ScrollTrigger.refresh() after images finish loading ────
     const debouncedRefresh = debounce(() => {
-      ScrollTrigger.refresh(true); // true = safe-force, recalculates all positions
+      ScrollTrigger.refresh(true);
     }, 200);
 
-    // Fire once after the full page load (fonts, images, everything)
     const onWindowLoad = () => debouncedRefresh();
     window.addEventListener('load', onWindowLoad, { once: true });
 
-    // Also hook every individual lazy image's load event so ST
-    // refreshes as each image slot materialises on slow networks
     const lazyImgs = document.querySelectorAll('img[loading="lazy"]');
     lazyImgs.forEach((img) => {
       if (!img.complete) {
@@ -60,11 +61,10 @@ export function SmoothScroll({ children }) {
     return () => {
       gsap.ticker.remove(tickerUpdate);
       window.removeEventListener('load', onWindowLoad);
-      // Individual img listeners auto-remove via { once: true }
     };
-  }, [prefersReducedMotion]);
+  }, [skipLenis]);
 
-  if (prefersReducedMotion) {
+  if (skipLenis) {
     return <>{children}</>;
   }
 

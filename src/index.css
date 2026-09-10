@@ -124,6 +124,67 @@
   }
 }
 
+/* ── CSS Scroll Reveal — replaces Motion whileInView ─────────────────────────
+   28 Motion whileInView instances → 1 shared IntersectionObserver in useInView.js
+   Same visual result: opacity 0→1, translateY 24px→0.
+   Stagger via .delay-1 / .delay-2 / .delay-3 sibling classes.
+   Reduced-motion: elements are always visible (no animation).
+   ────────────────────────────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: no-preference) {
+  .fade-up {
+    opacity: 0;
+    transform: translateY(24px);
+    transition:
+      opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1),
+      transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .fade-up.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Slide from left (used in WhyUsSection) */
+  .fade-left {
+    opacity: 0;
+    transform: translateX(-20px);
+    transition:
+      opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+      transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .fade-left.is-visible {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  /* Scale reveal (used in FacesSection photo) */
+  .fade-scale {
+    opacity: 0;
+    transform: scale(0.96);
+    transition:
+      opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1),
+      transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .fade-scale.is-visible {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  /* Stagger delays — apply to siblings inside a parent reveal group */
+  .delay-1 { transition-delay: 0.1s; }
+  .delay-2 { transition-delay: 0.2s; }
+  .delay-3 { transition-delay: 0.3s; }
+  .delay-15 { transition-delay: 0.15s; }
+  .delay-25 { transition-delay: 0.25s; }
+}
+
+/* Reduced motion: always visible, no animation */
+@media (prefers-reduced-motion: reduce) {
+  .fade-up, .fade-left, .fade-scale {
+    opacity: 1;
+    transform: none;
+  }
+}
+
 /* ── GPU compositing layer hints ─────────────────────────────────────────────
    will-change:transform promotes the element to its own compositor layer.
    Apply only to elements that are ACTIVELY animated by GSAP or Motion

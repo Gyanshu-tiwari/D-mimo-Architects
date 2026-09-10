@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { motion } from "motion/react";
+import { useInView } from "@/hooks/useInView";
 import { ChevronLeft, ChevronRight, Sparkles, Calendar, Users, ShieldCheck } from "lucide-react";
 import { Container } from "@/components/primitives/Container";
 import { Heading } from "@/components/primitives/Heading";
@@ -67,17 +67,17 @@ export function AwardsSection() {
     setCurrentIndex(index);
   };
 
+  const { ref: headerRef, isInView: headerInView } = useInView({ margin: '-80px' });
+  const { ref: cardRef, isInView: cardInView } = useInView({ margin: '-80px' });
+
   return (
     <Section className="cv-auto bg-[#fafafa] py-16 sm:py-20 lg:py-24 border-t border-neutral-200/80 overflow-hidden">
       <Container>
         {/* Section Header */}
-        <div className="flex flex-col items-start mb-12 lg:mb-16">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-80px" }}
-            transition={{ duration: 0.6 }}
-          >
+        <div
+          ref={headerRef}
+          className={`fade-up flex flex-col items-start mb-12 lg:mb-16${headerInView ? ' is-visible' : ''}`}
+        >
             <Text className="text-sm font-semibold tracking-widest uppercase mb-6 text-black/50">
               // Recognition
             </Text>
@@ -89,16 +89,12 @@ export function AwardsSection() {
             <Text className="text-gray-600 text-base sm:text-lg max-w-2xl mt-4 font-normal leading-relaxed">
               Celebrated nationally for architectural innovation, thoughtful spatial geometry, and progressive design language.
             </Text>
-          </motion.div>
-        </div>
+          </div>
 
         {/* Single Unified Card Container */}
-        <motion.div
-          initial={{ opacity: 0, y: 25 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-80px" }}
-          transition={{ duration: 0.6 }}
-          className="bg-white rounded-2xl md:rounded-3xl p-6 sm:p-8 lg:p-10 shadow-sm border border-neutral-200/80"
+        <div
+          ref={cardRef}
+          className={`fade-up delay-1 bg-white rounded-2xl md:rounded-3xl p-6 sm:p-8 lg:p-10 shadow-sm border border-neutral-200/80${cardInView ? ' is-visible' : ''}`}
         >
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
             
@@ -240,7 +236,7 @@ export function AwardsSection() {
             </div>
 
           </div>
-        </motion.div>
+        </div>
       </Container>
     </Section>
   );

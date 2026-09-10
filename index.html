@@ -9,22 +9,98 @@
     <link rel="apple-touch-icon" href="/favicon.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#ffffff" />
-    
-    
+    <meta name="robots" content="index, follow" />
+
+    <!-- ── Preloader flash prevention ─────────────────────────────────────────
+         Hides #root before React hydrates so the prerendered hero never flashes
+         before the preloader overlay takes control. The Preloader component
+         removes this tag synchronously in useLayoutEffect before the first paint.
+         Googlebot ignores sessionStorage checks and reads the raw HTML directly,
+         so this has zero SEO impact. -->
+    <style id="preload-shield">#root{visibility:hidden}</style>
+
     <!-- Preconnect to image CDN -->
     <link rel="preconnect" href="https://images.unsplash.com" />
-    
+
     <!-- Google Fonts (Optimized Async Loading) -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Inter:ital,wght@0,100..900;1,100..900&family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap" as="style" />
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Inter:ital,wght@0,100..900;1,100..900&family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap" as="style" />
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
     <noscript>
-      <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Inter:ital,wght@0,100..900;1,100..900&family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet" />
+      <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet" />
     </noscript>
 
     <!-- Preload Hero Image for LCP Optimization -->
     <link rel="preload" as="image" href="https://images.unsplash.com/photo-1664711942326-2c3351e215e6?q=70&w=1600&auto=format&fit=crop" />
+
+    <!-- ── JSON-LD Structured Data ─────────────────────────────────────────────
+         LocalBusiness + Organization schema improves Google rich results and
+         local search ranking significantly for architecture/design firms. -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "LocalBusiness",
+          "@id": "https://www.dmimoarchitects.com/#business",
+          "name": "D Mimo Architects",
+          "alternateName": "D Mimo",
+          "description": "D Mimo Architects is an award-winning interior design and architecture studio based in Greater Noida, India. We design timeless, modern, and intentional residential and commercial spaces.",
+          "url": "https://www.dmimoarchitects.com",
+          "logo": "https://www.dmimoarchitects.com/icons/favicon.webp",
+          "image": "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&q=80&w=1200",
+          "telephone": "+918130137015",
+          "email": "mimoarchitectshm@gmail.com",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "SGA Techzone 4",
+            "addressLocality": "Greater Noida West",
+            "addressRegion": "Uttar Pradesh",
+            "postalCode": "201306",
+            "addressCountry": "IN"
+          },
+          "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": "28.6139",
+            "longitude": "77.4890"
+          },
+          "priceRange": "$$",
+          "servesCuisine": null,
+          "hasOfferCatalog": {
+            "@type": "OfferCatalog",
+            "name": "Interior Design Services",
+            "itemListElement": [
+              { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Residential Interior Design" } },
+              { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Commercial Interior Design" } },
+              { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Space Planning" } },
+              { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Home Renovation" } }
+            ]
+          },
+          "sameAs": [
+            "https://www.instagram.com/d_mimo_architects/"
+          ],
+          "award": "Uttam Architect Award 2025 — Best Innovative Design Language"
+        },
+        {
+          "@type": "Organization",
+          "@id": "https://www.dmimoarchitects.com/#organization",
+          "name": "D Mimo Architects",
+          "url": "https://www.dmimoarchitects.com",
+          "logo": "https://www.dmimoarchitects.com/icons/favicon.webp",
+          "foundingDate": "2019",
+          "founder": {
+            "@type": "Person",
+            "name": "Ar. Hritik Mishra",
+            "jobTitle": "Founder & Principal Architect"
+          },
+          "sameAs": [
+            "https://www.instagram.com/d_mimo_architects/"
+          ]
+        }
+      ]
+    }
+    </script>
   </head>
   <body>
     <div id="root"></div>
