@@ -1,9 +1,15 @@
 import { useLocation } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 
+// ── Production canonical base ────────────────────────────────────────────────
+// NEVER use window.location.origin — during prerendering with Puppeteer,
+// window.location.origin is http://localhost:3000, which produces a conflicting
+// canonical that tanks SEO. Always use the hardcoded production domain.
+const PRODUCTION_BASE = "https://www.dmimoarchitects.com";
+
 export function SEO({ title, description, keywords, ogImage, ogType = "website" }) {
   const location = useLocation();
-  const canonicalUrl = typeof window !== 'undefined' ? `${window.location.origin}${location.pathname}` : `https://www.dmimoarchitects.com${location.pathname}`;
+  const canonicalUrl = `${PRODUCTION_BASE}${location.pathname}`;
 
   const BRAND_NAME = "D Mimo Architects";
 

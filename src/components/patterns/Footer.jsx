@@ -13,12 +13,22 @@ export function Footer() {
           {/* Newsletter */}
           <div className="lg:col-span-2">
             <Heading as="h4" className="text-white mb-3">Newsletter</Heading>
-            <Text className="text-white/70 mb-6">Subscribe for news and insights</Text>
-            <form className="flex gap-3 max-w-md">
-              <input 
-                type="email" 
-                placeholder="Email address" 
-                className="bg-transparent border-b border-gray-600 px-3 py-2.5 w-full focus:outline-none focus:border-white transition-colors text-sm"
+            <Text className="text-white/80 mb-6">Subscribe for news and insights</Text>
+            <form
+              className="flex gap-3 max-w-md"
+              onSubmit={(e) => {
+                e.preventDefault();
+                // Placeholder: wire to your email service
+                const email = e.currentTarget.elements.namedItem('email').value;
+                if (email) alert(`Thanks! We'll be in touch at ${email}`);
+              }}
+            >
+              <input
+                type="email"
+                name="email"
+                placeholder="Email address"
+                aria-label="Email address for newsletter"
+                className="bg-transparent border-b border-gray-600 px-3 py-2.5 w-full focus:outline-none focus:border-white focus:border-b transition-colors text-sm"
                 required
               />
               <Button type="submit" variant="secondary" className="rounded-full bg-white text-neutral-900 border border-white font-semibold hover:bg-neutral-100 transition-all shrink-0 shadow-sm">
@@ -29,7 +39,7 @@ export function Footer() {
 
           {/* Contact */}
           <div>
-            <Heading as="h6" className="text-white mb-6">Get in touch</Heading>
+            <Heading as="h5" className="text-white mb-6">Get in touch</Heading>
             <div className="flex flex-col gap-4">
               <a href="tel:+918130137015" className="text-white/70 hover:text-white transition-colors">+91 8130137015</a>
               <a href="mailto:mimoarchitectshm@gmail.com" className="text-white/70 hover:text-white transition-colors">mimoarchitectshm@gmail.com</a>
@@ -39,7 +49,7 @@ export function Footer() {
 
           {/* Navigation */}
           <div>
-            <Heading as="h6" className="text-white mb-6">Navigation</Heading>
+            <Heading as="h5" className="text-white mb-6">Navigation</Heading>
             <div className="grid grid-cols-2 gap-4">
               <div className="flex flex-col gap-4">
                 <Link to="/" className="text-white/70 hover:text-white transition-colors">Home</Link>
@@ -56,7 +66,7 @@ export function Footer() {
 
           {/* Socials */}
           <div>
-            <Heading as="h6" className="text-white mb-6">Socials</Heading>
+            <Heading as="h5" className="text-white mb-6">Socials</Heading>
             <div className="flex gap-4">
               <a 
                 href="https://www.instagram.com/d_mimo_architects/" 

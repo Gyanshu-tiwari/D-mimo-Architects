@@ -16,7 +16,8 @@ import { AwardsSection } from "@/components/sections/AwardsSection";
 export default function Home() {
   return (
     <>
-      <SEO 
+      <SEO
+        title="Interior Design & Architecture Studio"
         description="D Mimo Architects designs timeless, modern, and intentional residential and commercial interior spaces. Discover our projects and design philosophy."
         keywords="interior design, modern design studio, home renovation, space planning, commercial interiors"
       />

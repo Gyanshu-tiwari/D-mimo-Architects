@@ -68,9 +68,15 @@ async function prerender() {
         // Give Lenis/GSAP an extra 500ms to calculate layouts and hide preloader if any
         await new Promise(r => setTimeout(r, 500));
 
-        // Strip out script tags that shouldn't run again or let standard hydration take over
-        // Actually, React 19 hydrateRoot handles standard markup well.
-        const html = await page.content();
+        let html = await page.content();
+
+        // ── CRITICAL FIX ──────────────────────────────────────────────────────
+        // Puppeteer returns the live DOM with absolute URLs resolved to
+        // http://localhost:3000/... — these would 404 on Vercel/production.
+        // Rewrite them back to root-relative paths so Vite's hashed assets
+        // are served from the same origin as the deployment.
+        html = html.replaceAll('http://localhost:3000/', '/');
+        // ─────────────────────────────────────────────────────────────────────
         
         // Write the HTML to the appropriate directory
         let outputPath = path.join(distPath, route);

@@ -71,22 +71,26 @@
     background-color: #f3f4f6;
   }
 
-  /* ── Section containment ───────────────────────────────────────────────────
-     Scope reflow to each section so a layout change inside one section
-     does NOT trigger a global document reflow. Critical on mobile. */
-  section {
-    contain: layout style;
-  }
-
   /* ── Below-fold paint optimisation ────────────────────────────────────────
      content-visibility:auto tells the browser to skip painting sections that
      are outside the viewport until the user scrolls near them.
      contain-intrinsic-size provides an estimated height for scroll bar accuracy.
-     Only apply to sections that are NEVER above-the-fold. */
+     IMPORTANT: Only apply to fully static sections — NOT to sections with
+     scroll-driven animations (PhilosophySection) or position:sticky children
+     (ServicesSection). */
   .cv-auto {
     content-visibility: auto;
     contain-intrinsic-size: 0 600px; /* safe fallback height estimate */
   }
+
+  /* ── REMOVED: section { contain: layout style } ───────────────────────────
+     This rule was causing two regressions:
+     1. position:sticky inside ServicesSection stopped working (contain creates
+        a new stacking context and containing block, breaking sticky).
+     2. Any animation that measures element positions relative to the viewport
+        gets wrong values inside a contained element.
+     Per-section containment is instead achieved via .cv-auto above which
+     only applies to safe, fully-static sections. */
 }
 
 /* ── Marquee animations ──────────────────────────────────────────────────── */

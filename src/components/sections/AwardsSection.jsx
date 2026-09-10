@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "motion/react";
 import { ChevronLeft, ChevronRight, Sparkles, Calendar, Users, ShieldCheck } from "lucide-react";
 import { Container } from "@/components/primitives/Container";
 import { Heading } from "@/components/primitives/Heading";
@@ -39,77 +39,32 @@ const ceremonyPhotos = [
 
 export function AwardsSection() {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [direction, setDirection] = useState(1);
   const [autoplayKey, setAutoplayKey] = useState(0);
 
-  // Auto-slide every 3.5 seconds continuously; resets cleanly when user manually interacts
+  // Auto-slide every 3.5 seconds; resets when user manually interacts
   useEffect(() => {
     const timer = setInterval(() => {
-      setDirection(1);
       setCurrentIndex((prev) => (prev + 1) % ceremonyPhotos.length);
     }, 3500);
-
     return () => clearInterval(timer);
   }, [autoplayKey]);
 
-  // Preload images in the background after initial render so it doesn't block LCP
-  useEffect(() => {
-    ceremonyPhotos.forEach(photo => {
-      const img = new Image();
-      img.src = photo.src;
-    });
-  }, []);
-
-  const resetAutoplay = () => {
-    setAutoplayKey((prev) => prev + 1);
-  };
+  const resetAutoplay = () => setAutoplayKey((prev) => prev + 1);
 
   const handleNext = () => {
     resetAutoplay();
-    setDirection(1);
     setCurrentIndex((prev) => (prev + 1) % ceremonyPhotos.length);
   };
 
   const handlePrev = () => {
     resetAutoplay();
-    setDirection(-1);
     setCurrentIndex((prev) => (prev - 1 + ceremonyPhotos.length) % ceremonyPhotos.length);
   };
 
   const selectSlide = (index) => {
     if (index === currentIndex) return;
     resetAutoplay();
-    setDirection(index > currentIndex ? 1 : -1);
     setCurrentIndex(index);
-  };
-
-  const activePhoto = ceremonyPhotos[currentIndex];
-
-  const slideVariants = {
-    enter: (dir) => ({
-      x: dir > 0 ? "10%" : "-10%",
-      opacity: 0,
-      scale: 0.98,
-    }),
-    center: {
-      x: "0%",
-      opacity: 1,
-      scale: 1,
-      transition: {
-        x: { type: "spring", stiffness: 300, damping: 30 },
-        opacity: { duration: 0.4 },
-        scale: { duration: 0.4 },
-      },
-    },
-    exit: (dir) => ({
-      x: dir > 0 ? "-10%" : "10%",
-      opacity: 0,
-      scale: 0.98,
-      transition: {
-        x: { type: "spring", stiffness: 300, damping: 30 },
-        opacity: { duration: 0.3 },
-      },
-    }),
   };
 
   return (
@@ -183,51 +138,58 @@ export function AwardsSection() {
               </div>
             </div>
 
-            {/* Right Part: Modern Image Carousel with Light Dots (7 Cols) */}
+            {/* Right Part: CSS Opacity Carousel — NO unmount/remount = ZERO repeat requests */}
             <div className="lg:col-span-7 flex flex-col gap-4">
               {/* Main Carousel Screen */}
               <div className="relative w-full aspect-4/3 sm:aspect-16/11 rounded-xl sm:rounded-2xl overflow-hidden bg-neutral-900 shadow-sm border border-neutral-200/60 group">
-                <AnimatePresence initial={false} custom={direction} mode="wait">
-                  <motion.div
-                    key={currentIndex}
-                    custom={direction}
-                    variants={slideVariants}
-                    initial="enter"
-                    animate="center"
-                    exit="exit"
-                    className="absolute inset-0 w-full h-full"
-                  >
-                    <img
-                      src={activePhoto.src}
-                      alt={activePhoto.title}
-                      className="w-full h-full object-cover select-none"
-                      loading="eager"
-                      fetchPriority="high"
-                      decoding="sync"
-                    />
-                    
-                    {/* Subtle Gradient Scrim for Readability */}
-                    <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/20 to-transparent pointer-events-none" />
+                
+                {/* ── All slides stay mounted at all times.                      ──
+                    We switch visibility with opacity + pointer-events so the browser
+                    never has to re-fetch images after the initial load.
+                    Each image gets a CSS transition on opacity for a cross-fade effect. */}
+                {ceremonyPhotos.map((photo, index) => {
+                  const isActive = index === currentIndex;
+                  return (
+                    <div
+                      key={photo.id}
+                      className="absolute inset-0 w-full h-full transition-opacity duration-500"
+                      style={{ opacity: isActive ? 1 : 0, pointerEvents: isActive ? 'auto' : 'none' }}
+                      aria-hidden={!isActive}
+                    >
+                      <img
+                        src={photo.src}
+                        alt={photo.title}
+                        className="w-full h-full object-cover select-none"
+                        loading={index === 0 ? "eager" : "lazy"}
+                        fetchPriority={index === 0 ? "high" : "low"}
+                        decoding="async"
+                        width="800"
+                        height="550"
+                      />
+                      
+                      {/* Subtle Gradient Scrim for Readability */}
+                      <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/20 to-transparent pointer-events-none" />
 
-                    {/* Top Tag */}
-                    <div className="absolute top-4 left-4 sm:top-5 sm:left-5 z-10">
-                      <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-black/60 backdrop-blur-md text-white text-xs font-mono font-medium border border-white/10 shadow-sm">
-                        <Sparkles className="w-3 h-3 text-amber-300" />
-                        {activePhoto.tag}
-                      </span>
-                    </div>
+                      {/* Top Tag */}
+                      <div className="absolute top-4 left-4 sm:top-5 sm:left-5 z-10">
+                        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-black/60 backdrop-blur-md text-white text-xs font-mono font-medium border border-white/10 shadow-sm">
+                          <Sparkles className="w-3 h-3 text-amber-300" />
+                          {photo.tag}
+                        </span>
+                      </div>
 
-                    {/* Bottom Caption Overlay */}
-                    <div className="absolute bottom-4 left-4 right-4 sm:bottom-5 sm:left-5 sm:right-5 z-10 text-white">
-                      <h4 className="text-base sm:text-lg md:text-xl font-medium font-display tracking-[0.01em] text-white leading-snug mb-1 drop-shadow-sm">
-                        {activePhoto.title}
-                      </h4>
-                      <p className="text-xs sm:text-sm text-neutral-300 font-normal line-clamp-1 drop-shadow-xs">
-                        {activePhoto.subtitle}
-                      </p>
+                      {/* Bottom Caption Overlay */}
+                      <div className="absolute bottom-4 left-4 right-4 sm:bottom-5 sm:left-5 sm:right-5 z-10 text-white">
+                        <h4 className="text-base sm:text-lg md:text-xl font-medium font-display tracking-[0.01em] text-white leading-snug mb-1 drop-shadow-sm">
+                          {photo.title}
+                        </h4>
+                        <p className="text-xs sm:text-sm text-neutral-300 font-normal line-clamp-1 drop-shadow-xs">
+                          {photo.subtitle}
+                        </p>
+                      </div>
                     </div>
-                  </motion.div>
-                </AnimatePresence>
+                  );
+                })}
 
                 {/* In-Frame Navigation Controls */}
                 <div className="absolute top-1/2 -translate-y-1/2 left-3 sm:left-4 z-20 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
@@ -251,7 +213,7 @@ export function AwardsSection() {
                 </div>
               </div>
 
-              {/* Modern Animated Pill & Dots Indicator (Light Background) */}
+              {/* Dot Indicator */}
               <div className="flex items-center justify-center pt-2">
                 <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-neutral-100 border border-neutral-200/80 shadow-xs">
                   {ceremonyPhotos.map((photo, index) => {
@@ -264,18 +226,11 @@ export function AwardsSection() {
                         className="relative flex items-center justify-center cursor-pointer focus:outline-none"
                       >
                         {isActive ? (
-                          <motion.div
-                            layoutId="awardSlideIndicator"
-                            transition={{ type: "spring", stiffness: 400, damping: 32 }}
-                            className="px-3.5 py-1 rounded-full bg-neutral-900 text-white text-xs font-medium whitespace-nowrap shadow-xs select-none"
-                          >
+                          <div className="px-3.5 py-1 rounded-full bg-neutral-900 text-white text-xs font-medium whitespace-nowrap shadow-xs select-none transition-all duration-300">
                             Slide {index + 1}
-                          </motion.div>
+                          </div>
                         ) : (
-                          <motion.div
-                            whileHover={{ scale: 1.25 }}
-                            className="w-2.5 h-2.5 mx-1 rounded-full bg-neutral-300 hover:bg-neutral-500 transition-colors"
-                          />
+                          <div className="w-2.5 h-2.5 mx-1 rounded-full bg-neutral-300 hover:bg-neutral-500 transition-colors" />
                         )}
                       </button>
                     );

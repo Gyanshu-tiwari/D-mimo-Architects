@@ -78,12 +78,14 @@ export function WorksSection() {
             >
               <Link to={work.link} className="group cursor-pointer flex flex-col h-full">
                 <div className="relative overflow-hidden aspect-4/3 mb-6">
-                  <motion.img
+                  <img
                     src={work.image}
                     alt={work.title}
                     className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
                     loading="lazy"
                     decoding="async"
+                    width="1200"
+                    height="900"
                   />
                 </div>
                 <Heading as="h5" className="mb-2 group-hover:text-gray-600 transition-colors">{work.title}</Heading>

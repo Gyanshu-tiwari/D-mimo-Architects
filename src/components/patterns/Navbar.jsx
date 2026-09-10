@@ -42,7 +42,10 @@ export function Navbar() {
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
+      const scrolled = window.scrollY > 20;
+      // Only update state when value actually changes — avoids re-rendering
+      // on every scroll tick at 60fps (hundreds of no-op renders per scroll session)
+      setIsScrolled(prev => prev !== scrolled ? scrolled : prev);
     };
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);

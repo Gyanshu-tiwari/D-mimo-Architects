@@ -43,7 +43,7 @@ export function TestimonialsSection() {
   const testimonials = [...baseTestimonials, ...baseTestimonials];
 
   return (
-    <Section className="bg-base-dark text-white overflow-hidden relative py-16 md:py-24">
+    <Section className="cv-auto bg-base-dark text-white overflow-hidden relative py-16 md:py-24">
       <Container>
         <div className="flex flex-col items-center text-center mb-10 sm:mb-14 lg:mb-16">
           <motion.div
@@ -59,7 +59,7 @@ export function TestimonialsSection() {
             <Heading as="h2" className="text-white text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-medium tracking-[0.015em] mb-4 sm:mb-6">
               Trusted by 30+ clients
             </Heading>
-            <Text className="text-white/70 font-normal text-sm sm:text-base max-w-xl mx-auto">
+            <Text className="text-white/85 font-normal text-sm sm:text-base max-w-xl mx-auto">
               Thoughtful interiors delivered through clear communication, refined execution, and long-term design value.
             </Text>
           </motion.div>

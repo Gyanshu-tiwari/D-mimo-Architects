@@ -47,7 +47,7 @@ export function PhilosophySection() {
   ];
 
   return (
-    <Section ref={containerRef} className="cv-auto bg-base-dark text-white">
+    <Section ref={containerRef} className="bg-base-dark text-white">
       <Container>
         {/* Top Header - Scroll Reveal */}
         <div className="flex flex-col items-center text-center mb-8 md:mb-12 pt-4">
@@ -101,7 +101,7 @@ export function PhilosophySection() {
               <div className="mb-6 w-12 h-12 rounded-full bg-white/5 flex items-center justify-center">
                 <item.icon className="w-5 h-5 text-white/90" strokeWidth={1.5} />
               </div>
-              <Heading as="h5" className="text-white mb-4">{item.title}</Heading>
+              <Heading as="h4" className="text-white mb-4">{item.title}</Heading>
               <Text className="text-white/60 leading-relaxed">{item.desc}</Text>
             </motion.div>
           ))}

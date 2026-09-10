@@ -64,12 +64,14 @@ export function BlogSection() {
               className="group cursor-pointer flex flex-col bg-white p-4 pb-8 rounded-sm shadow-sm hover:shadow-md transition-shadow"
             >
               <div className="relative overflow-hidden mb-6 aspect-4/3 rounded-sm">
-                <motion.img
+                <img
                   src={post.image}
                   alt={post.title}
                   className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
                   loading="lazy"
                   decoding="async"
+                  width="800"
+                  height="600"
                 />
               </div>
               <div className="px-2">

@@ -39,7 +39,7 @@ export function LogosSection() {
           {logos.map((logo, i) => (
             <div
               key={`${logo}-${i}`}
-              className="text-lg sm:text-xl font-semibold tracking-wider text-neutral-400 hover:text-neutral-900 transition-colors select-none cursor-default shrink-0"
+              className="text-lg sm:text-xl font-semibold tracking-wider text-neutral-500 hover:text-neutral-900 transition-colors select-none cursor-default shrink-0"
             >
               {logo}
             </div>
