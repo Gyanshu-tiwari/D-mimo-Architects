@@ -36,7 +36,7 @@ export function FAQSection() {
   const [openIndex, setOpenIndex] = useState(0);
 
   return (
-    <Section className="bg-white">
+    <Section className="cv-auto bg-white">
       <Container>
         <div className="flex flex-col lg:flex-row gap-16 lg:gap-24 items-start">
           <motion.div
@@ -46,16 +46,16 @@ export function FAQSection() {
             transition={{ duration: 0.6 }}
             className="lg:w-1/3"
           >
-            <Text className="text-sm font-semibold tracking-widest uppercase mb-6 text-gray-500">
+            <Text className="text-sm font-semibold tracking-widest uppercase mb-4 text-gray-500">
               // FAQ
             </Text>
-            <Heading as="h2" className="mb-6">
+            <Heading as="h2" className="mb-4 text-3xl sm:text-4xl lg:text-5xl font-medium tracking-[0.015em] text-neutral-900 leading-[1.1]">
               Got questions?
             </Heading>
-            <Text className="text-gray-600 mb-8">
+            <Text className="text-gray-600 mb-6 text-base sm:text-lg">
               We’ve answered some of the most common questions about our services.
             </Text>
-            <Button asChild variant="secondary">
+            <Button asChild variant="secondary" className="rounded-full px-6 py-2.5 border border-neutral-900 bg-neutral-900 text-white font-semibold hover:bg-black hover:border-black transition-all shadow-sm">
               <Link to="/contact">Contact us</Link>
             </Button>
           </motion.div>

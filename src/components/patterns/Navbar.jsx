@@ -121,28 +121,18 @@ export function Navbar() {
           </nav>
 
           {/* Desktop CTA */}
-          <div className="flex-1 hidden md:flex items-center justify-end gap-1.5">
+          <div className="flex-1 hidden md:flex items-center justify-end">
             <Link 
               to="/contact" 
               className={cn(
-                "px-5 py-2.5 rounded-sm font-medium text-sm transition-colors",
+                "group inline-flex items-center gap-2 px-5 py-2.5 rounded-full font-semibold text-sm transition-all duration-300 shadow-sm border hover:shadow-md hover:-translate-y-0.5 active:translate-y-0",
                 isDarkTheme 
-                  ? "bg-white text-black hover:bg-gray-100" 
-                  : "bg-black text-white hover:bg-gray-800"
+                  ? "bg-white text-neutral-900 border-white hover:bg-neutral-100" 
+                  : "bg-[#111827] text-white border-neutral-800 hover:bg-black hover:border-black"
               )}
             >
-              Contact us
-            </Link>
-            <Link 
-              to="/contact" 
-              className={cn(
-                "p-2.5 rounded-sm transition-colors flex items-center justify-center",
-                isDarkTheme 
-                  ? "bg-white text-black hover:bg-gray-100" 
-                  : "bg-black text-white hover:bg-gray-800"
-              )}
-            >
-              <ArrowUpRight className="w-5 h-5" />
+              <span>Contact us</span>
+              <ArrowUpRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
             </Link>
           </div>
 
@@ -214,7 +204,7 @@ export function Navbar() {
                 </Link>
               ))}
 
-              <div className="pt-4 mt-52 border-t border-gray-100 flex flex-col gap-4">
+              <div className="pt-4 mt-16 border-t border-gray-100 flex flex-col gap-4">
                 <a 
                   href="https://instagram.com/d_mimo_architects/" 
                   target="_blank" 

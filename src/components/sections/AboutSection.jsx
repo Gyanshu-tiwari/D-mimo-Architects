@@ -31,6 +31,9 @@ export function AboutSection() {
               alt="Refined living room interior with terracotta armchair"
               className="w-full h-full object-cover transition-transform duration-700 hover:scale-105"
               loading="lazy"
+              decoding="async"
+              width="1000"
+              height="1250"
             />
           </motion.div>
 
@@ -49,19 +52,19 @@ export function AboutSection() {
               Shaping spaces with purpose, where design meets living
             </Heading>
             <div className="w-12 h-0.5 bg-black/20 my-4" />
-            <p className="font-sans text-gray-700 mt-3 mb-30 text-base sm:text-lg font-normal leading-relaxed">
+            <p className="font-sans text-gray-700 mt-3 mb-6 md:mb-8 text-base sm:text-lg font-normal leading-relaxed">
               We design residential and commercial interiors that balance aesthetics, function, and longevity—creating spaces that feel intentional, refined, and deeply connected to how people live and work.
             </p>
             <div>
-              <Button asChild variant="secondary" className="rounded-lg border border-black/80 hover:bg-black hover:text-white transition-colors">
-                <Link to="/about"><span className="font-bold">More About Us</span></Link>
+              <Button asChild variant="outline" className="rounded-full px-6 py-2.5 border border-neutral-900 text-neutral-900 font-semibold hover:bg-neutral-900 hover:text-white transition-all shadow-xs">
+                <Link to="/about">More About Us</Link>
               </Button>
             </div>
           </motion.div>
         </div>
 
         {/* Bottom: Stats Row Horizontally Below About Section */}
-        <div className="grid grid-cols-3 gap-4 sm:gap-8 md:gap-16 pt-12 md:pt-16 mt-12 md:mt-20 border-t border-gray-100">
+        <div className="grid grid-cols-3 gap-4 sm:gap-8 md:gap-16 pt-8 md:pt-12 mt-8 md:mt-12 border-t border-gray-100">
           {stats.map((stat, i) => (
             <motion.div
               key={stat.label}

@@ -55,13 +55,41 @@
     }
   }
 
-  /* Smooth image rendering */
+  /* ── Image baseline rules ──────────────────────────────────────────────────
+     Every image is block-level to eliminate the inline-baseline gap.
+     Lazy images get an explicit background so the layout slot is visible
+     before decode (prevents CLS pop-in on slow networks). */
   img {
     display: block;
     max-width: 100%;
   }
+
+  img[loading="lazy"] {
+    /* Reserve the layout slot with a neutral skeleton color.
+       The browser still uses width/height attrs for aspect-ratio;
+       this just makes the placeholder visible instead of invisible. */
+    background-color: #f3f4f6;
+  }
+
+  /* ── Section containment ───────────────────────────────────────────────────
+     Scope reflow to each section so a layout change inside one section
+     does NOT trigger a global document reflow. Critical on mobile. */
+  section {
+    contain: layout style;
+  }
+
+  /* ── Below-fold paint optimisation ────────────────────────────────────────
+     content-visibility:auto tells the browser to skip painting sections that
+     are outside the viewport until the user scrolls near them.
+     contain-intrinsic-size provides an estimated height for scroll bar accuracy.
+     Only apply to sections that are NEVER above-the-fold. */
+  .cv-auto {
+    content-visibility: auto;
+    contain-intrinsic-size: 0 600px; /* safe fallback height estimate */
+  }
 }
 
+/* ── Marquee animations ──────────────────────────────────────────────────── */
 @keyframes marquee {
   0% {
     transform: translateX(0%);
@@ -90,4 +118,27 @@
   .animate-marquee-slow:hover {
     animation-play-state: paused;
   }
+}
+
+/* ── GPU compositing layer hints ─────────────────────────────────────────────
+   will-change:transform promotes the element to its own compositor layer.
+   Apply only to elements that are ACTIVELY animated by GSAP or Motion
+   to avoid unnecessary VRAM usage. */
+
+/* Parallax hero image wrapper (driven by Motion useTransform) */
+.parallax-hero {
+  will-change: transform;
+}
+
+/* Preloader curtain (Motion exit animation) */
+[data-preloader] {
+  will-change: transform;
+}
+
+/* Elements that GSAP animates on scroll (opacity + y) get a GPU nudge.
+   We use a utility class so it can be toggled on/off cleanly. */
+.gsap-animated {
+  will-change: transform, opacity;
+  transform: translateZ(0); /* force GPU rasterisation layer */
+  backface-visibility: hidden;
 }

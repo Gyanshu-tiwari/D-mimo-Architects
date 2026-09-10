@@ -121,7 +121,7 @@ export default function ProjectDetail() {
       
       {/* Hero Parallax */}
       <div ref={heroRef} className="relative h-[70vh] md:h-[85vh] overflow-hidden bg-base-dark mt-20">
-        <motion.div style={{ y }} className="absolute inset-0 w-full h-[120%] top-[-10%]">
+        <motion.div style={{ y }} className="parallax-hero absolute inset-0 w-full h-[120%] top-[-10%]">
           <img 
             src={project.heroImage} 
             alt={project.title} 

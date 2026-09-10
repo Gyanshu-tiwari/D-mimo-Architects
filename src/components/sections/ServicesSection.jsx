@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect } from "react";
+import { useRef, useEffect } from "react";
 import { Container } from "@/components/primitives/Container";
 import { Heading } from "@/components/primitives/Heading";
 import { Text } from "@/components/primitives/Text";
@@ -7,30 +7,27 @@ import { motion } from "motion/react";
 import { Link } from "react-router-dom";
 
 export function ServicesSection() {
+  // cardRef = the first service card (used to measure its natural height)
   const cardRef = useRef(null);
-  // Default to 460px so height is accurate immediately on mount/reload before images finish loading
-  const [cardHeight, setCardHeight] = useState(460);
+  // stickyColRef = the sticky left column whose height must match the card height
+  const stickyColRef = useRef(null);
 
   useEffect(() => {
-    if (!cardRef.current) return;
-    
-    // Measure immediately
-    if (cardRef.current.offsetHeight > 100) {
-      setCardHeight(cardRef.current.offsetHeight);
-    }
+    if (!cardRef.current || !stickyColRef.current) return;
 
-    // ResizeObserver dynamically catches image loads, font loads, and window resizes
-    const ro = new ResizeObserver((entries) => {
-      for (const entry of entries) {
-        if (entry.target === cardRef.current) {
-          const height = entry.target.offsetHeight;
-          if (height > 100) {
-            setCardHeight(height);
-          }
-        }
+    // Writes card height directly to the DOM — no React state, no re-render
+    const syncHeight = () => {
+      const h = cardRef.current?.offsetHeight;
+      if (h && h > 100 && stickyColRef.current) {
+        stickyColRef.current.style.height = `${h}px`;
       }
-    });
+    };
 
+    syncHeight();
+
+    // ResizeObserver watches the card for size changes (image loads, font shifts, etc.)
+    // and updates the sticky column height directly in the DOM — zero React renders.
+    const ro = new ResizeObserver(syncHeight);
     ro.observe(cardRef.current);
     return () => ro.disconnect();
   }, []);
@@ -81,20 +78,21 @@ export function ServicesSection() {
   const CARD_GAP = 64; // 64px gap between cards
 
   return (
-    <Section id="services" className="bg-[#FAFBFB] border-t border-gray-100 pt-20 md:pt-28 lg:pt-32 pb-0 relative">
+    <Section id="services" className="bg-[#FAFBFB] border-t border-gray-100 py-12 md:py-16 lg:py-20 relative">
       <Container>
-        <div className="flex flex-col lg:flex-row gap-1 lg:gap-16 xl:gap-24 items-start relative">
+        <div className="flex flex-col lg:flex-row gap-8 lg:gap-16 xl:gap-24 items-start relative">
           {/* Left Column: Sticky on Desktop, exact same height as card so it unsticks at the exact instant Card 04 covers Card 03 */}
           <div className="lg:w-5/12 lg:sticky lg:top-28 self-start pt-2">
             <motion.div
+              ref={stickyColRef}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-80px" }}
               transition={{ duration: 0.6 }}
-              style={{ height: `${cardHeight}px` }}
+              style={{ height: '460px' }}
               className="flex flex-col justify-center"
             >
-              <div className="pb-28 lg:pb-30">
+              <div className="pb-6 lg:pb-8">
                 <Text className="text-sm font-semibold tracking-widest uppercase mb-4 text-gray-500">
                   // Services
                 </Text>
@@ -106,7 +104,7 @@ export function ServicesSection() {
                   What we design
                 </Heading>
 
-                <p className="font-sans text-gray-600 text-base sm:text-lg leading-relaxed mb-8 max-w-md">
+                <p className="font-sans text-gray-600 text-base sm:text-lg leading-relaxed mb-6 max-w-md">
                   We follow a clear process to keep every step simple, structured, and easy to manage.
                 </p>
               </div>
@@ -114,7 +112,7 @@ export function ServicesSection() {
               <div>
                 <Link
                   to="/contact"
-                  className="inline-flex items-center gap-2 text-sm font-semibold text-neutral-900 hover:text-neutral-600 transition-colors group"
+                  className="inline-flex items-center gap-2.5 rounded-full bg-[#111827] text-white border border-neutral-800 px-6 py-3 text-sm font-semibold shadow-sm hover:bg-black hover:shadow-md transition-all group"
                 >
                   <span>Discuss your project</span>
                   <svg

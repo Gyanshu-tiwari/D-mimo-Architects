@@ -82,7 +82,7 @@ export default function Contact() {
               <Heading as="h1" className="mb-6">
                 Let's discuss your next project.
               </Heading>
-              <Text className="text-gray-600 mb-12 lg:max-w-md">
+              <Text className="text-gray-600 mb-6 lg:max-w-md">
                 We're always looking for new opportunities to create beautiful, functional spaces. Reach out to start the conversation.
               </Text>
 
@@ -287,7 +287,7 @@ export default function Contact() {
                     </label>
                   </motion.div>
 
-                  <Button type="submit" className="mt-2 w-full sm:w-auto h-11 px-8" disabled={isSubmitting}>
+                  <Button type="submit" className="mt-2 w-full sm:w-auto h-12 px-8 rounded-full bg-[#111827] text-white border border-neutral-800 font-semibold hover:bg-black hover:border-black shadow-md hover:shadow-lg transition-all" disabled={isSubmitting}>
                     {isSubmitting ? "Sending..." : "Send message"}
                   </Button>
                 </form>

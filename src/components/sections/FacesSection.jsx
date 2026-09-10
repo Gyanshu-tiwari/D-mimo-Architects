@@ -7,9 +7,9 @@ import { Link } from "react-router-dom";
 
 export function FacesSection() {
   return (
-    <Section className="bg-white py-14 md:py-20 border-t border-gray-100">
+    <Section className="bg-white py-12 md:py-16 border-t border-gray-100">
       <Container>
-        <div className="flex flex-col lg:flex-row gap-12 lg:gap-14 xl:gap-20 items-start justify-between">
+        <div className="flex flex-col lg:flex-row gap-8 lg:gap-12 xl:gap-16 items-start justify-between">
           
           {/* Left Column */}
           <div className="flex-1 w-full max-w-2xl flex flex-col justify-between">
@@ -18,9 +18,9 @@ export function FacesSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-80px" }}
               transition={{ duration: 0.6 }}
-              className="mb-10 md:mb-14"
+              className="mb-6 md:mb-8"
             >
-              <Heading as="h2" className="text-4xl sm:text-5xl md:text-6xl lg:text-[4.5rem] leading-[1.1] tracking-[0.015em] font-medium">
+              <Heading as="h2" className="text-4xl sm:text-5xl md:text-6xl lg:text-[4.25rem] leading-[1.1] tracking-[0.015em] font-medium">
                 <span className="text-[#111827]">The face </span>
                 <span className="text-gray-400">behind<br />the projects.</span>
               </Heading>
@@ -39,18 +39,18 @@ export function FacesSection() {
                 <Plus className="w-3.5 h-3.5" strokeWidth={1.5} />
               </div>
               
-              <div className="mt-6 max-w-96 space-y-6">
-                <p className="text-gray-500 text-md sm:text-md mb-12 leading-normal font-normal">
-                  We believe great work comes - <span className="text-[#111827] font-medium">from collaboration.</span> That's why we work closely with each other to ensure every project meets your goals and exceeds expectations.
+              <div className="mt-4 max-w-xl space-y-6">
+                <p className="text-gray-600 text-base sm:text-lg leading-relaxed font-normal">
+                  We believe great work comes from <span className="text-[#111827] font-semibold">close collaboration</span>. That's why we work closely with you to ensure every project meets your goals and exceeds expectations.
                 </p>
 
-                <div>
+                <div className="pt-2">
                   <Link
                     to="/contact"
-                    className="inline-flex items-center gap-2.5 rounded-full bg-[#111827] text-white hover:bg-neutral-800 transition-all duration-300 px-3 py-1.5 text-xs sm:text-xs font-medium shadow-xs hover:shadow-md group"
+                    className="inline-flex items-center gap-3 rounded-full bg-[#111827] text-white border border-neutral-800 hover:bg-black transition-all duration-300 px-6 py-3 text-sm font-semibold shadow-md hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 group"
                   >
                     <span>Let's connect</span>
-                    <span className="w-1.5 h-1.5 bg-white rounded-full block transition-transform duration-300 group-hover:scale-125"></span>
+                    <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse block"></span>
                   </Link>
                 </div>
               </div>
@@ -63,14 +63,14 @@ export function FacesSection() {
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true, margin: "-80px" }}
             transition={{ duration: 0.6, delay: 0.25 }}
-            className="w-full max-w-[320px] sm:max-w-[380px] lg:max-w-[420px] xl:max-w-[480px] shrink-0 mx-auto lg:mx-0"
+            className="w-full max-w-[320px] sm:max-w-[380px] lg:max-w-[420px] xl:max-w-[460px] shrink-0 mx-auto lg:mx-0"
           >
-            <div className="relative overflow-hidden rounded-2xl md:rounded-3xl aspect-4/5 bg-gray-100 group shadow-[0_12px_36px_-15px_rgba(0,0,0,0.12)] border border-neutral-200/80">
-              <div className="absolute top-5 left-5 bg-black/60 backdrop-blur-md w-6 h-6 rounded-full z-10 flex items-center justify-center">
-                <Plus className="w-3 h-3 text-white" strokeWidth={2.5} />
+            <div className="relative overflow-hidden rounded-2xl md:rounded-3xl aspect-4/5 bg-gray-100 group shadow-[0_16px_40px_-15px_rgba(0,0,0,0.14)] border border-neutral-200/90">
+              <div className="absolute top-5 left-5 bg-black/60 backdrop-blur-md w-7 h-7 rounded-full z-10 flex items-center justify-center border border-white/10">
+                <Plus className="w-3.5 h-3.5 text-white" strokeWidth={2.5} />
               </div>
-              <div className="absolute top-5 right-5 z-10 text-right">
-                <div className="text-white font-bold text-xs sm:text-xs drop-shadow-xs">Founder & <br/> Principal Architect</div>
+              <div className="absolute top-5 right-5 z-10 text-right bg-black/40 backdrop-blur-md px-3 py-1.5 rounded-xl border border-white/10">
+                <div className="text-white font-bold text-xs sm:text-xs drop-shadow-xs">Founder & Principal Architect</div>
                 <div className="text-white/80 text-[11px]">at D Mimo®</div>
               </div>
               
@@ -86,7 +86,7 @@ export function FacesSection() {
               <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/20 to-transparent pointer-events-none"></div>
               
               <div className="absolute bottom-6 left-6 z-10">
-                <Heading as="h6" className="text-white font-normal text-md sm:text-lg tracking-[0.015em]">Ar. Hritik Mishra</Heading>
+                <Heading as="h6" className="text-white font-medium text-lg sm:text-xl tracking-[0.015em] drop-shadow-sm">Ar. Hritik Mishra</Heading>
               </div>
             </div>
           </motion.div>

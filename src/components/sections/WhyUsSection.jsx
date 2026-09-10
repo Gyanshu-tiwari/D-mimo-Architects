@@ -58,6 +58,8 @@ export function WhyUsSection() {
                 className="w-full h-full object-cover transition-transform duration-700 ease-out hover:scale-105"
                 loading="lazy"
                 decoding="async"
+                width="1200"
+                height="800"
               />
             </div>
           </motion.div>

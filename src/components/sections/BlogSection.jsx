@@ -31,7 +31,7 @@ export function BlogSection() {
   ];
 
   return (
-    <Section className="bg-base-light">
+    <Section className="cv-auto bg-base-light">
       <Container>
         <div className="flex flex-col lg:flex-row gap-12 justify-between mb-16 lg:mb-24 items-end">
           <motion.div

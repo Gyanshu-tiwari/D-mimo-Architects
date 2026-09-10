@@ -6,22 +6,22 @@ import { Link } from "react-router-dom";
 
 export function Footer() {
   return (
-    <footer className="bg-base-dark text-white pt-20 lg:pt-32 pb-8">
+    <footer className="bg-base-dark text-white pt-12 md:pt-16 pb-8">
       <Container>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12 lg:gap-8 mb-20 border-b border-white/10 pb-20">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 lg:gap-8 mb-10 border-b border-white/10 pb-10">
           
           {/* Newsletter */}
           <div className="lg:col-span-2">
-            <Heading as="h4" className="text-white mb-4">Newsletter</Heading>
-            <Text className="text-white/70 mb-8">Subscribe for news and insights</Text>
-            <form className="flex gap-4 max-w-md">
+            <Heading as="h4" className="text-white mb-3">Newsletter</Heading>
+            <Text className="text-white/70 mb-6">Subscribe for news and insights</Text>
+            <form className="flex gap-3 max-w-md">
               <input 
                 type="email" 
                 placeholder="Email address" 
-                className="bg-transparent border-b border-gray-600 px-2 py-3 w-full focus:outline-none focus:border-white transition-colors"
+                className="bg-transparent border-b border-gray-600 px-3 py-2.5 w-full focus:outline-none focus:border-white transition-colors text-sm"
                 required
               />
-              <Button type="submit" variant="secondary" className="bg-white text-black shrink-0">
+              <Button type="submit" variant="secondary" className="rounded-full bg-white text-neutral-900 border border-white font-semibold hover:bg-neutral-100 transition-all shrink-0 shadow-sm">
                 Subscribe
               </Button>
             </form>

@@ -21,7 +21,9 @@ export function HeroSection() {
           className="w-full h-full object-cover opacity-60"
           loading="eager"
           fetchPriority="high"
-          decoding="sync"
+          decoding="async"
+          width="1600"
+          height="900"
         />
         <div className="absolute inset-0 bg-black/30" />
       </motion.div>
@@ -33,7 +35,7 @@ export function HeroSection() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.1, ease: "easeOut" }}
           >
-            <Heading as="h1" className="font-medium text-4xl md:text-4xl lg:text-5xl tracking-normal text-white mb-45">
+            <Heading as="h1" className="font-medium text-4xl sm:text-5xl md:text-6xl tracking-normal text-white mb-6 md:mb-8 leading-[1.1]">
               Built to Flow<br/> Designed to Last
             </Heading>
           </motion.div>
@@ -42,8 +44,8 @@ export function HeroSection() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
           >
-            <p className="font-light max-w-82 mb-10 tracking-wide text-white/90">
-              Where fluid design - meets lasting impact, crafted for those who value beauty, function, and flow in every detail.
+            <p className="font-light max-w-lg mb-8 tracking-wide text-white/90 text-base sm:text-lg leading-relaxed">
+              Where fluid design meets lasting impact—crafted for those who value beauty, function, and spatial flow in every detail.
             </p>
           </motion.div>
           
@@ -53,7 +55,7 @@ export function HeroSection() {
             transition={{ duration: 0.8, delay: 0.3, ease: "easeOut" }}
             className="flex flex-col sm:flex-row items-start sm:items-center gap-6"
           >
-            <Button asChild size="lg" className="bg-white rounded-lg mr-4 text-black hover:bg-gray-100">
+            <Button asChild size="lg" className="rounded-full bg-white text-neutral-900 border border-white/90 hover:bg-neutral-100 shadow-xl hover:shadow-2xl font-semibold transition-all hover:-translate-y-0.5">
               <Link to="/contact">Get started</Link>
             </Button>
             <div className="flex items-center gap-3">

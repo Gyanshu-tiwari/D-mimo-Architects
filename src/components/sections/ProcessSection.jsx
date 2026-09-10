@@ -24,9 +24,9 @@ export function ProcessSection() {
   ];
 
   return (
-    <Section className="bg-white">
+    <Section className="cv-auto bg-white">
       <Container>
-        <div className="flex flex-col lg:flex-row gap-12 lg:gap-24 mb-16 lg:mb-24 items-start">
+        <div className="flex flex-col lg:flex-row gap-6 lg:gap-16 mb-8 md:mb-12 items-start justify-between">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -34,10 +34,10 @@ export function ProcessSection() {
             transition={{ duration: 0.6 }}
             className="lg:w-1/2"
           >
-            <Text className="text-sm font-semibold tracking-widest uppercase mb-6 text-gray-500">
+            <Text className="text-sm font-semibold tracking-widest uppercase mb-4 text-gray-500">
               // How we work
             </Text>
-            <Heading as="h2">
+            <Heading as="h2" className="text-3xl sm:text-4xl lg:text-5xl font-medium tracking-[0.015em] text-neutral-900 leading-[1.1]">
               A clear design process
             </Heading>
           </motion.div>
@@ -46,9 +46,9 @@ export function ProcessSection() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="lg:w-1/2 pt-2 lg:pt-14"
+            className="lg:w-1/2 lg:self-end"
           >
-             <Text className="text-gray-600">
+             <Text className="text-gray-600 text-base sm:text-lg">
               From booking to final check, we make professional design easy, transparent, and stress-free for your home.
             </Text>
           </motion.div>

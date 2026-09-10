@@ -47,14 +47,14 @@ export function PhilosophySection() {
   ];
 
   return (
-    <Section ref={containerRef} className="bg-base-dark text-white">
+    <Section ref={containerRef} className="cv-auto bg-base-dark text-white">
       <Container>
         {/* Top Header - Scroll Reveal */}
-        <div className="flex flex-col items-center text-center mb-16 lg:mb-24 pt-8">
-          <Text className="text-sm font-semibold tracking-widest uppercase mb-10 text-white/50">
+        <div className="flex flex-col items-center text-center mb-8 md:mb-12 pt-4">
+          <Text className="text-sm font-semibold tracking-widest uppercase mb-4 text-white/50">
             // Design philosophy
           </Text>
-          <Heading as="h2" className="text-white lg:max-w-5xl leading-[1.1]! text-4xl md:text-5xl lg:text-6xl">
+          <Heading as="h2" className="text-white lg:max-w-5xl leading-[1.1]! text-3xl sm:text-4xl md:text-5xl lg:text-6xl">
             {words.map((word, i) => {
               const start = i / words.length;
               const end = start + 1 / words.length;
@@ -73,7 +73,7 @@ export function PhilosophySection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.8, ease: "easeOut" }}
-          className="relative w-full aspect-video md:aspect-21/9 bg-white/5 mb-16 lg:mb-24 overflow-hidden"
+          className="relative w-full aspect-video md:aspect-21/9 bg-white/5 mb-8 md:mb-12 overflow-hidden rounded-xl"
           style={{
             clipPath: "polygon(60px 0, 100% 0, 100% calc(100% - 60px), calc(100% - 60px) 100%, 0 100%, 0 60px)"
           }}

@@ -37,7 +37,7 @@ export function WorksSection() {
   return (
     <Section className="bg-white">
       <Container>
-        <div className="flex flex-col md:flex-row gap-8 justify-between items-end mb-16 lg:mb-24">
+        <div className="flex flex-col md:flex-row gap-6 justify-between items-end mb-8 md:mb-12">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -45,13 +45,13 @@ export function WorksSection() {
             transition={{ duration: 0.6 }}
             className="max-w-2xl"
           >
-            <Text className="text-sm font-semibold tracking-widest uppercase mb-6 text-gray-500">
+            <Text className="text-sm font-semibold tracking-widest uppercase mb-4 text-gray-500">
               // Featured work
             </Text>
-            <Heading as="h2" className="mb-6">
+            <Heading as="h2" className="mb-4 text-3xl sm:text-4xl lg:text-5xl font-medium tracking-[0.015em] text-neutral-900 leading-[1.1]">
               Recent works
             </Heading>
-            <Text className="text-gray-600">
+            <Text className="text-gray-600 text-base sm:text-lg">
               A curated selection of residential and commercial projects showcasing our approach to space design.
             </Text>
           </motion.div>
@@ -61,7 +61,7 @@ export function WorksSection() {
             viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 0.6, delay: 0.2 }}
           >
-            <Button asChild variant="secondary">
+            <Button asChild variant="secondary" className="rounded-full px-6 py-2.5 border border-neutral-300 bg-white text-neutral-900 font-semibold hover:border-neutral-900 hover:bg-neutral-900 hover:text-white transition-all shadow-xs">
               <Link to="/projects">All works</Link>
             </Button>
           </motion.div>

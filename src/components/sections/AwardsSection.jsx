@@ -113,7 +113,7 @@ export function AwardsSection() {
   };
 
   return (
-    <Section className="bg-[#fafafa] py-16 sm:py-20 lg:py-24 border-t border-neutral-200/80 overflow-hidden">
+    <Section className="cv-auto bg-[#fafafa] py-16 sm:py-20 lg:py-24 border-t border-neutral-200/80 overflow-hidden">
       <Container>
         {/* Section Header */}
         <div className="flex flex-col items-start mb-12 lg:mb-16">

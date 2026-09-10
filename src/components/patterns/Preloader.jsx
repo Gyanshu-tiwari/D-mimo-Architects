@@ -60,6 +60,7 @@ export function Preloader({ onComplete }) {
       {!isFinished && (
         <motion.div
           key="preloader-overlay"
+          data-preloader
           initial={{ y: 0 }}
           exit={{ y: "-100%" }}
           transition={{
