@@ -67,8 +67,8 @@ export function AwardsSection() {
     setCurrentIndex(index);
   };
 
-  const { ref: headerRef, isInView: headerInView } = useInView({ margin: '-80px' });
-  const { ref: cardRef, isInView: cardInView } = useInView({ margin: '-80px' });
+  const headerRef = useInView({ margin: '-80px' });
+  const cardRef = useInView({ margin: '-80px' });
 
   return (
     <Section className="cv-auto bg-[#fafafa] py-16 sm:py-20 lg:py-24 border-t border-neutral-200/80 overflow-hidden">
@@ -76,7 +76,7 @@ export function AwardsSection() {
         {/* Section Header */}
         <div
           ref={headerRef}
-          className={`fade-up flex flex-col items-start mb-12 lg:mb-16${headerInView ? ' is-visible' : ''}`}
+          className="fade-up flex flex-col items-start mb-12 lg:mb-16"
         >
             <Text className="text-sm font-semibold tracking-widest uppercase mb-6 text-black/50">
               // Recognition
@@ -94,7 +94,7 @@ export function AwardsSection() {
         {/* Single Unified Card Container */}
         <div
           ref={cardRef}
-          className={`fade-up delay-1 bg-white rounded-2xl md:rounded-3xl p-6 sm:p-8 lg:p-10 shadow-sm border border-neutral-200/80${cardInView ? ' is-visible' : ''}`}
+          className="fade-up delay-1 bg-white rounded-2xl md:rounded-3xl p-6 sm:p-8 lg:p-10 shadow-sm border border-neutral-200/80"
         >
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
             

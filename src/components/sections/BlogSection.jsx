@@ -33,8 +33,8 @@ const posts = [
 ];
 
 export function BlogSection() {
-  const { ref: headerRef, isInView: headerInView } = useInView({ margin: "-100px" });
-  const { ref: gridRef, isInView: gridInView } = useInView({ margin: "-80px" });
+  const headerRef = useInView({ margin: "-100px" });
+  const gridRef = useInView({ margin: "-80px" });
 
   return (
     <Section className="cv-auto bg-[#fafafa] border-t border-neutral-200/80">
@@ -43,7 +43,7 @@ export function BlogSection() {
           ref={headerRef}
           className="flex flex-col md:flex-row gap-6 justify-between items-end mb-8 md:mb-12"
         >
-          <div className={`fade-up max-w-2xl${headerInView ? " is-visible" : ""}`}>
+          <div className="fade-up max-w-2xl">
             <Text className="text-sm font-semibold tracking-widest uppercase mb-4 text-gray-500">
               // Journal
             </Text>
@@ -54,7 +54,7 @@ export function BlogSection() {
               Thoughts on design, process, and what makes great spaces.
             </Text>
           </div>
-          <div className={`fade-up delay-2${headerInView ? " is-visible" : ""}`}>
+          <div className="fade-up delay-2">
             <Link
               to="/blog"
               className="inline-flex items-center gap-2 rounded-full px-6 py-2.5 border border-neutral-300 bg-white text-neutral-900 font-semibold hover:border-neutral-900 hover:bg-neutral-900 hover:text-white transition-all shadow-xs text-sm"
@@ -68,7 +68,7 @@ export function BlogSection() {
           {posts.map((post, i) => (
             <div
               key={post.slug}
-              className={`fade-up${gridInView ? ` is-visible delay-${i + 1}` : ""}`}
+              className={`fade-up delay-${i + 1}`}
             >
               <Link
                 to={`/blog/${post.slug}`}

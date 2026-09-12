@@ -43,13 +43,13 @@ export function TestimonialsSection() {
   // Duplicate for seamless infinite marquee loop
   const testimonials = [...baseTestimonials, ...baseTestimonials];
 
-  const { ref: headerRef, isInView: headerInView } = useInView({ margin: '-80px' });
+  const headerRef = useInView({ margin: '-80px' });
 
   return (
     <Section className="cv-auto bg-base-dark text-white overflow-hidden relative py-16 md:py-24">
       <Container>
         <div ref={headerRef} className="flex flex-col items-center text-center mb-10 sm:mb-14 lg:mb-16">
-          <div className={`fade-up${headerInView ? ' is-visible' : ''} max-w-2xl`}>
+          <div className="fade-up max-w-2xl">
             <Text className="text-xs sm:text-sm font-semibold tracking-widest uppercase mb-4 sm:mb-6 text-white/50">
               // Testimonials
             </Text>

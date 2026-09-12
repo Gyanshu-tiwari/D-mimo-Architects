@@ -35,7 +35,7 @@ export function FAQSection() {
   ];
 
   const [openIndex, setOpenIndex] = useState(0);
-  const { ref: leftRef, isInView: leftInView } = useInView({ margin: '-100px' });
+  const leftRef = useInView({ margin: '-100px' });
 
   return (
     <Section className="cv-auto bg-white">
@@ -43,7 +43,7 @@ export function FAQSection() {
         <div className="flex flex-col lg:flex-row gap-16 lg:gap-24 items-start">
           <div
             ref={leftRef}
-            className={`fade-up lg:w-1/3${leftInView ? ' is-visible' : ''}`}
+            className="fade-up lg:w-1/3"
           >
             <Text className="text-sm font-semibold tracking-widest uppercase mb-4 text-gray-500">
               // FAQ

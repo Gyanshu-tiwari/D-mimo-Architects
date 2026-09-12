@@ -5,27 +5,24 @@ import { Text } from "@/components/primitives/Text";
 import { Section } from "@/components/primitives/Section";
 import { ShieldCheck, Target, Clock, Medal } from "lucide-react";
 
-export function WhyUsSection() {
-  const principles = [
-    { icon: Medal, title: "Selected designers", desc: "Every project is led by experienced interior designers focused on quality and detail." },
-    { icon: Target, title: "Thoughtful process", desc: "Clear workflows & structured milestones ensure the best possible outcomes." },
-    { icon: ShieldCheck, title: "Spaces that last", desc: "We design interiors that age well, adapting seamlessly to real everyday life." },
-    { icon: Clock, title: "Reliable delivery", desc: "Timelines, budgets, and expectations are clearly defined from the very beginning." }
-  ];
+const principles = [
+  { icon: Medal, title: "Selected designers", desc: "Every project is led by experienced interior designers focused on quality and detail." },
+  { icon: Target, title: "Thoughtful process", desc: "Clear workflows & structured milestones ensure the best possible outcomes." },
+  { icon: ShieldCheck, title: "Spaces that last", desc: "We design interiors that age well, adapting seamlessly to real everyday life." },
+  { icon: Clock, title: "Reliable delivery", desc: "Timelines, budgets, and expectations are clearly defined from the very beginning." }
+];
 
-  const { ref: leftRef, isInView: leftInView } = useInView({ margin: "-100px" });
-  const { ref: gridRef, isInView: gridInView } = useInView({ margin: "-100px" });
+export function WhyUsSection() {
+  const leftRef = useInView({ margin: "-100px" });
+  const gridRef = useInView({ margin: "-100px" });
 
   return (
     <Section className="bg-white py-16 md:py-24 border-t border-gray-100">
       <Container>
         <div className="flex flex-col lg:flex-row gap-12 lg:gap-16 xl:gap-20 items-stretch">
 
-          {/* Left Column - Image & Header */}
-          <div
-            ref={leftRef}
-            className={`fade-left lg:w-5/12 flex flex-col justify-between${leftInView ? " is-visible" : ""}`}
-          >
+          {/* Left Column */}
+          <div ref={leftRef} className="fade-left lg:w-5/12 flex flex-col justify-between">
             <div>
               <Text className="text-xs sm:text-sm font-semibold tracking-widest uppercase mb-4 sm:mb-6 text-gray-500">
                 // Why choose us
@@ -34,7 +31,6 @@ export function WhyUsSection() {
                 Design you can trust, every step
               </Heading>
             </div>
-
             <div className="relative w-full aspect-4/3 sm:aspect-16/10 lg:aspect-auto lg:flex-1 lg:min-h-95 bg-gray-100 rounded-2xl md:rounded-3xl overflow-hidden shadow-xs border border-neutral-200/80">
               <img
                 src="https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&q=80&w=1200"
@@ -48,14 +44,11 @@ export function WhyUsSection() {
             </div>
           </div>
 
-          {/* Right Column - 2x2 Grid */}
-          <div ref={gridRef} className="lg:w-7/12 flex flex-col justify-center">
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 sm:gap-x-10 lg:gap-x-12 gap-y-10 sm:gap-y-12">
+          {/* Right Column — ref on parent, fade-up + delay-N on children */}
+          <div className="lg:w-7/12 flex flex-col justify-center">
+            <div ref={gridRef} className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 sm:gap-x-10 lg:gap-x-12 gap-y-10 sm:gap-y-12">
               {principles.map((point, i) => (
-                <div
-                  key={point.title}
-                  className={`fade-up flex flex-col${gridInView ? ` is-visible delay-${i + 1}` : ""}`}
-                >
+                <div key={point.title} className={`fade-up flex flex-col delay-${i + 1}`}>
                   <div className="mb-4 sm:mb-5 w-11 h-11 rounded-full border border-gray-200/90 bg-gray-50/50 flex items-center justify-center">
                     <point.icon className="w-5 h-5 text-neutral-800" strokeWidth={1.5} />
                   </div>

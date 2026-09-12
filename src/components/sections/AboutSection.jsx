@@ -13,19 +13,19 @@ export function AboutSection() {
     { value: "5+", label: "Years of experiences" },
   ];
 
-  const { ref: imgRef, isInView: imgInView } = useInView({ margin: "-100px" });
-  const { ref: textRef, isInView: textInView } = useInView({ margin: "-100px" });
-  const { ref: statsRef, isInView: statsInView } = useInView({ margin: "-50px" });
+  // useInView now returns a ref directly (no isInView state — no re-renders)
+  const imgRef = useInView({ margin: "-100px" });
+  const textRef = useInView({ margin: "-100px" });
+  const statsRef = useInView({ margin: "-50px" });
 
   return (
     <Section className="bg-white">
       <Container>
-        {/* Top: 2-Column Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
-          {/* Left Column: Image */}
+          {/* Left: Image */}
           <div
             ref={imgRef}
-            className={`fade-up order-2 lg:order-1 relative overflow-hidden rounded-2xl shadow-sm aspect-4/5 bg-gray-100 max-h-145 w-full${imgInView ? " is-visible" : ""}`}
+            className="fade-up order-2 lg:order-1 relative overflow-hidden rounded-2xl shadow-sm aspect-4/5 bg-gray-100 max-h-145 w-full"
           >
             <img
               src="https://images.unsplash.com/photo-1691036562015-56ebf6648f8c?w=1000&auto=format&fit=crop&q=80"
@@ -38,10 +38,10 @@ export function AboutSection() {
             />
           </div>
 
-          {/* Right Column: About Text */}
+          {/* Right: Text */}
           <div
             ref={textRef}
-            className={`fade-up delay-15 order-1 lg:order-2 flex flex-col justify-center${textInView ? " is-visible" : ""}`}
+            className="fade-up delay-15 order-1 lg:order-2 flex flex-col justify-center"
           >
             <Text className="text-sm font-semibold tracking-widest uppercase mb-4 text-gray-500">
               // About us
@@ -61,16 +61,13 @@ export function AboutSection() {
           </div>
         </div>
 
-        {/* Bottom: Stats Row */}
+        {/* Stats Row — ref on parent, fade-up on children (stagger via delay-N) */}
         <div
           ref={statsRef}
           className="grid grid-cols-3 gap-4 sm:gap-8 md:gap-16 pt-8 md:pt-12 mt-8 md:mt-12 border-t border-gray-100"
         >
           {stats.map((stat, i) => (
-            <div
-              key={stat.label}
-              className={`fade-up flex flex-col${statsInView ? ` is-visible delay-${i + 1}` : ""}`}
-            >
+            <div key={stat.label} className={`fade-up flex flex-col delay-${i + 1}`}>
               <Heading as="h3" className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-normal tracking-[0.015em] mb-1 sm:mb-2 text-neutral-900">
                 {stat.value}
               </Heading>
