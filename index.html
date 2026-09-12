@@ -2,27 +2,48 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="icon" type="image/webp" href="/favicon.webp" />
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon.png" />
-    <link rel="icon" href="/favicon.ico" sizes="any" />
-    <link rel="apple-touch-icon" href="/favicon.png" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#ffffff" />
-    <meta name="robots" content="index, follow" />
 
-    <!-- ── Preloader flash prevention ─────────────────────────────────────────
-         Hides #root before React hydrates so the prerendered hero never flashes
-         before the preloader overlay takes control. The Preloader component
-         removes this tag synchronously in useLayoutEffect before the first paint.
-         Googlebot ignores sessionStorage checks and reads the raw HTML directly,
-         so this has zero SEO impact. -->
-    <style id="preload-shield">#root{visibility:hidden}</style>
+    <!--
+      ════════════════════════════════════════════════════════════════════
+      PRELOADER FLASH PREVENTION — MUST BE FIRST IN <head>
+      ════════════════════════════════════════════════════════════════════
+      Problem: SSG/Puppeteer captures the prerendered hero HTML AFTER the
+      preloader finishes. When a real user receives that HTML, the hero is
+      visible for the ~300ms it takes React to parse and mount.
+
+      Solution: A synchronous inline <script> that runs BEFORE any content
+      is painted checks sessionStorage. First-time visitors get the
+      'js-preloading' class on <html>, which CSS uses to hide #root.
+      The Preloader's useLayoutEffect removes the class synchronously
+      before the browser's first paint — so the preloader overlay appears
+      with zero hero flash.
+
+      Return visitors: sessionStorage is set → script does NOT add the
+      class → #root is never hidden → instant page load, no delay.
+
+      Puppeteer (prerender): prerender.mjs calls evaluateOnNewDocument()
+      to pre-seed sessionStorage before page load, so this script never
+      adds the class and the captured HTML is clean.
+      ════════════════════════════════════════════════════════════════════
+    -->
+    <style>.js-preloading #root{visibility:hidden;pointer-events:none}</style>
+    <script>try{if(!sessionStorage.getItem('preloaderShown')){document.documentElement.classList.add('js-preloading');}}catch(e){}</script>
+
+    <!-- Favicon — ico first (widest browser/crawler compat), then png for HiDPI -->
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon.png" />
+    <link rel="icon" type="image/png" sizes="48x48" href="/favicon.png" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicon.png" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#09090b" />
+    <meta name="robots" content="index, follow" />
 
     <!-- Preconnect to image CDN -->
     <link rel="preconnect" href="https://images.unsplash.com" />
 
-    <!-- Google Fonts (Optimized Async Loading) -->
+    <!-- Google Fonts (Cinzel + Urbanist only — Inter is bundled via @fontsource) -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="preload" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap" as="style" />
@@ -31,12 +52,10 @@
       <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet" />
     </noscript>
 
-    <!-- Preload Hero Image for LCP Optimization -->
-    <link rel="preload" as="image" href="https://images.unsplash.com/photo-1664711942326-2c3351e215e6?q=70&w=1600&auto=format&fit=crop" />
+    <!-- Preload Hero LCP image -->
+    <link rel="preload" as="image" href="https://images.unsplash.com/photo-1664711942326-2c3351e215e6?q=70&w=1600&auto=format&fit=crop" fetchpriority="high" />
 
-    <!-- ── JSON-LD Structured Data ─────────────────────────────────────────────
-         LocalBusiness + Organization schema improves Google rich results and
-         local search ranking significantly for architecture/design firms. -->
+    <!-- JSON-LD Structured Data -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -46,10 +65,9 @@
           "@id": "https://www.dmimoarchitects.com/#business",
           "name": "D Mimo Architects",
           "alternateName": "D Mimo",
-          "description": "D Mimo Architects is an award-winning interior design and architecture studio based in Greater Noida, India. We design timeless, modern, and intentional residential and commercial spaces.",
+          "description": "D Mimo Architects is an award-winning interior design and architecture studio. We design timeless, modern, and intentional residential and commercial spaces.",
           "url": "https://www.dmimoarchitects.com",
-          "logo": "https://www.dmimoarchitects.com/icons/favicon.webp",
-          "image": "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&q=80&w=1200",
+          "logo": "https://www.dmimoarchitects.com/favicon.png",
           "telephone": "+918130137015",
           "email": "mimoarchitectshm@gmail.com",
           "address": {
@@ -60,13 +78,7 @@
             "postalCode": "201306",
             "addressCountry": "IN"
           },
-          "geo": {
-            "@type": "GeoCoordinates",
-            "latitude": "28.6139",
-            "longitude": "77.4890"
-          },
           "priceRange": "$$",
-          "servesCuisine": null,
           "hasOfferCatalog": {
             "@type": "OfferCatalog",
             "name": "Interior Design Services",
@@ -77,9 +89,7 @@
               { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Home Renovation" } }
             ]
           },
-          "sameAs": [
-            "https://www.instagram.com/d_mimo_architects/"
-          ],
+          "sameAs": ["https://www.instagram.com/d_mimo_architects/"],
           "award": "Uttam Architect Award 2025 — Best Innovative Design Language"
         },
         {
@@ -87,16 +97,14 @@
           "@id": "https://www.dmimoarchitects.com/#organization",
           "name": "D Mimo Architects",
           "url": "https://www.dmimoarchitects.com",
-          "logo": "https://www.dmimoarchitects.com/icons/favicon.webp",
+          "logo": "https://www.dmimoarchitects.com/favicon.png",
           "foundingDate": "2019",
           "founder": {
             "@type": "Person",
             "name": "Ar. Hritik Mishra",
             "jobTitle": "Founder & Principal Architect"
           },
-          "sameAs": [
-            "https://www.instagram.com/d_mimo_architects/"
-          ]
+          "sameAs": ["https://www.instagram.com/d_mimo_architects/"]
         }
       ]
     }

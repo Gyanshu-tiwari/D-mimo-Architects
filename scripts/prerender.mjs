@@ -57,6 +57,18 @@ async function prerender() {
 
     const page = await browser.newPage();
 
+    // ── CRITICAL: Skip preloader during prerendering ────────────────────────
+    // Our index.html inline script checks sessionStorage on every page load.
+    // evaluateOnNewDocument injects code that runs BEFORE any page JS fires,
+    // so the inline script sees preloaderShown=true and never adds the
+    // 'js-preloading' blocking class. This means:
+    //  1. The captured HTML has no blocking classes
+    //  2. The preloader animation is never captured mid-frame
+    //  3. networkidle0 fires faster (no 0.8s preloader animation to wait for)
+    await page.evaluateOnNewDocument(() => {
+      sessionStorage.setItem('preloaderShown', 'true');
+    });
+
     for (const route of routes) {
       const url = `http://localhost:3000${route}`;
       console.log(`Prerendering ${route}...`);

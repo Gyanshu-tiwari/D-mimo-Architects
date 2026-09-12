@@ -7,15 +7,14 @@ export function Preloader({ onComplete }) {
   const [isFinished, setIsFinished] = useState(!!hasSeenPreloader);
 
   // ── Preloader flash prevention ─────────────────────────────────────────────
-  // index.html ships <style id="preload-shield">#root{visibility:hidden}</style>
-  // to prevent the prerendered hero from flashing before this component paints.
+  // index.html contains an inline <script> that adds 'js-preloading' to <html>
+  // if sessionStorage is empty (first visit). This hides #root before React loads.
   // useLayoutEffect fires synchronously BEFORE the browser paints, so we remove
-  // the shield and restore visibility at the exact right moment — zero flicker.
+  // the class at the exact right moment — the preloader overlay is already
+  // position:fixed z-[99999] so it covers #root the instant it becomes visible.
+  // For return visits (hasSeenPreloader=true), this is a no-op class removal.
   useLayoutEffect(() => {
-    const shield = document.getElementById("preload-shield");
-    if (shield) shield.remove();
-    const root = document.getElementById("root");
-    if (root) root.style.visibility = "visible";
+    document.documentElement.classList.remove("js-preloading");
   }, []);
 
   useEffect(() => {
@@ -27,14 +26,14 @@ export function Preloader({ onComplete }) {
     // Lock body scroll while preloader is active
     document.body.style.overflow = "hidden";
 
-    const duration = 800; // 0.8s for better Lighthouse metrics
+    const duration = 800;
     const startTime = performance.now();
 
     const animateProgress = (currentTime) => {
       const elapsed = currentTime - startTime;
       const progressFraction = Math.min(elapsed / duration, 1);
 
-      // Smooth custom easing (cubic acceleration and deceleration)
+      // Smooth cubic easing
       const easedProgress =
         progressFraction < 0.5
           ? 4 * progressFraction * progressFraction * progressFraction
@@ -47,7 +46,6 @@ export function Preloader({ onComplete }) {
         requestAnimationFrame(animateProgress);
       } else {
         setProgress(100);
-        // Brief pause at 100% before curtain slide-up
         setTimeout(() => {
           setIsFinished(true);
           sessionStorage.setItem("preloaderShown", "true");
@@ -58,7 +56,6 @@ export function Preloader({ onComplete }) {
     };
 
     const animFrame = requestAnimationFrame(animateProgress);
-
     return () => {
       cancelAnimationFrame(animFrame);
       document.body.style.overflow = "";
@@ -75,11 +72,8 @@ export function Preloader({ onComplete }) {
           data-preloader
           initial={{ y: 0 }}
           exit={{ y: "-100%" }}
-          transition={{
-            duration: 0.85,
-            ease: [0.76, 0, 0.24, 1],
-          }}
-          className="fixed inset-0 z-99999 bg-[#09090b] text-white flex flex-col justify-between p-6 sm:p-10 md:p-14 select-none overflow-hidden"
+          transition={{ duration: 0.85, ease: [0.76, 0, 0.24, 1] }}
+          className="fixed inset-0 z-[99999] bg-[#09090b] text-white flex flex-col justify-between p-6 sm:p-10 md:p-14 select-none overflow-hidden"
           style={{ willChange: "transform" }}
         >
           {/* Top Bar: D Mimo Logo */}
@@ -94,7 +88,7 @@ export function Preloader({ onComplete }) {
             </div>
           </div>
 
-          {/* Bottom Bar: Percentage Counter & Progress Bar */}
+          {/* Bottom Bar: Percentage + Progress Track */}
           <div className="relative z-10 w-full space-y-4">
             <div className="flex items-end justify-end">
               <div className="flex items-baseline">
@@ -106,13 +100,10 @@ export function Preloader({ onComplete }) {
                 </span>
               </div>
             </div>
-
-            {/* Hairline Progress Track */}
             <div className="w-full h-0.5 bg-neutral-800/80 rounded-full overflow-hidden">
-              <motion.div
-                className="h-full bg-linear-to-r from-neutral-400 via-white to-neutral-200"
+              <div
+                className="h-full bg-linear-to-r from-neutral-400 via-white to-neutral-200 transition-none"
                 style={{ width: `${progress}%` }}
-                transition={{ ease: "linear" }}
               />
             </div>
           </div>

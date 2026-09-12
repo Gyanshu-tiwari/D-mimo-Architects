@@ -93,6 +93,39 @@
      only applies to safe, fully-static sections. */
 }
 
+/* ── Hero section CSS animations ───────────────────────────────────────────────────
+   Pure CSS replacements for motion.div animate={{ scale, opacity, y }}.
+   These run on the browser's compositor thread — zero JS overhead.
+   Motion was stepping every RAF frame in JS for 1.2s on the largest
+   element on the page. CSS @keyframes does the same work for free.
+   ────────────────────────────────────────────────────────────────────────── */
+@keyframes hero-zoom {
+  from { transform: scale(1.06) translateZ(0); }
+  to   { transform: scale(1)    translateZ(0); }
+}
+@keyframes hero-fade-up {
+  from { opacity: 0; transform: translateY(18px) translateZ(0); }
+  to   { opacity: 1; transform: translateY(0)    translateZ(0); }
+}
+
+.hero-bg-zoom {
+  will-change: transform;
+  backface-visibility: hidden;
+  animation: hero-zoom 1.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .hero-fade-1 {
+    animation: hero-fade-up 0.85s cubic-bezier(0.16, 1, 0.3, 1) 0.05s both;
+  }
+  .hero-fade-2 {
+    animation: hero-fade-up 0.85s cubic-bezier(0.16, 1, 0.3, 1) 0.15s both;
+  }
+  .hero-fade-3 {
+    animation: hero-fade-up 0.85s cubic-bezier(0.16, 1, 0.3, 1) 0.28s both;
+  }
+}
+
 /* ── Marquee animations ──────────────────────────────────────────────────── */
 @keyframes marquee {
   0% {
@@ -106,6 +139,10 @@
 .animate-marquee-fast {
   display: flex;
   width: max-content;
+  /* translateZ(0) promotes to GPU compositor layer — eliminates subpixel
+     jitter that occurs when the browser animates on the main thread */
+  transform: translateZ(0);
+  backface-visibility: hidden;
   animation: marquee 24s linear infinite;
   will-change: transform;
 }
@@ -113,6 +150,8 @@
 .animate-marquee-slow {
   display: flex;
   width: max-content;
+  transform: translateZ(0);
+  backface-visibility: hidden;
   animation: marquee 42s linear infinite;
   will-change: transform;
 }

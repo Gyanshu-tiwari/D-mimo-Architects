@@ -15,24 +15,16 @@ export function LogosSection() {
 
   return (
     <section className="py-12 border-b border-gray-100 bg-white relative overflow-hidden">
-      {/* Left Blur & Fade Edge Overlay */}
-      <div 
-        aria-hidden="true"
-        className="pointer-events-none absolute left-0 top-0 bottom-0 w-24 sm:w-44 z-10 bg-linear-to-r from-white via-white/85 to-transparent backdrop-blur-[2px]" 
-      />
-
-      {/* Right Blur & Fade Edge Overlay */}
-      <div 
-        aria-hidden="true"
-        className="pointer-events-none absolute right-0 top-0 bottom-0 w-24 sm:w-44 z-10 bg-linear-to-l from-white via-white/85 to-transparent backdrop-blur-[3px]" 
-      />
-
-      {/* Marquee Track Moving Right to Left */}
-      <div 
+      {/* Marquee Track — GPU-composited via translateZ(0) in CSS
+          Removed backdrop-blur from edge overlays: blur creates new stacking
+          contexts that force the browser to composite them separately from the
+          marquee layer, causing layer conflict and subpixel jitter. */}
+      <div
         className="relative w-full overflow-hidden"
         style={{
-          WebkitMaskImage: "linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%)",
-          maskImage: "linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%)",
+          /* CSS mask fades edges — cheaper than DOM overlay elements */
+          WebkitMaskImage: "linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%)",
+          maskImage: "linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%)",
         }}
       >
         <div className="animate-marquee-fast flex items-center gap-12 sm:gap-20 whitespace-nowrap py-2">
