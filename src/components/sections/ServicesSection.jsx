@@ -89,7 +89,7 @@ export function ServicesSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-80px" }}
               transition={{ duration: 0.6 }}
-              className="flex flex-col justify-center"
+              className="flex flex-col max-h-fit justify-center"
             >
               <div className="pb-6 lg:pb-8">
                 <Text className="text-sm font-semibold tracking-widest uppercase mb-4 text-gray-500">
