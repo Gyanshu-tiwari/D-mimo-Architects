@@ -3,7 +3,6 @@ import { Container } from "@/components/primitives/Container";
 import { Heading } from "@/components/primitives/Heading";
 import { Text } from "@/components/primitives/Text";
 import { Section } from "@/components/primitives/Section";
-import { motion } from "motion/react";
 import { Star } from "lucide-react";
 
 export function TestimonialsSection() {
