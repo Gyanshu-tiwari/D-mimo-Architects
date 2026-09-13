@@ -12,7 +12,7 @@ export default function About() {
   return (
     <div className="pt-24">
       <SEO 
-        title="About Us" 
+        title="Our Studio" 
         description="Learn more about D Mimo Architects' design philosophy, our experienced designers, and our process for creating functional, beautiful spaces."
         keywords="about D Mimo, interior design team, design philosophy, process"
       />
