@@ -1,12 +1,13 @@
+import { useRef } from "react";
 import { useInView } from "@/hooks/useInView";
 import { Container } from "@/components/primitives/Container";
 import { Heading } from "@/components/primitives/Heading";
 import { Text } from "@/components/primitives/Text";
 import { Section } from "@/components/primitives/Section";
-import { Star } from "lucide-react";
+import { Star, ChevronLeft, ChevronRight } from "lucide-react";
 
 export function TestimonialsSection() {
-  const baseTestimonials = [
+  const testimonials = [
     {
       text: "D Mimo Architects helped us present our work with clarity and confidence. The spacing, typography, and layout choices feel thoughtful, professional, and built to last.",
       author: "Olivia Hart",
@@ -39,15 +40,23 @@ export function TestimonialsSection() {
     }
   ];
 
-  // Duplicate for seamless infinite marquee loop
-  const testimonials = [...baseTestimonials, ...baseTestimonials];
-
   const headerRef = useInView({ margin: '-80px' });
+  const scrollRef = useRef(null);
+
+  const scroll = (direction) => {
+    if (scrollRef.current) {
+      const scrollAmount = window.innerWidth < 768 ? 300 : 400;
+      scrollRef.current.scrollBy({
+        left: direction === 'left' ? -scrollAmount : scrollAmount,
+        behavior: 'smooth'
+      });
+    }
+  };
 
   return (
-    <Section className="cv-auto bg-base-dark text-white overflow-hidden relative py-16 md:py-24">
+    <Section className="cv-auto bg-base-dark text-white relative py-16 md:py-24">
       <Container>
-        <div ref={headerRef} className="flex flex-col items-center text-center mb-10 sm:mb-14 lg:mb-16">
+        <div ref={headerRef} className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-10 sm:mb-14 lg:mb-16">
           <div className="fade-up max-w-2xl">
             <Text className="text-xs sm:text-sm font-semibold tracking-widest uppercase mb-4 sm:mb-6 text-white/50">
               // Testimonials
@@ -55,73 +64,72 @@ export function TestimonialsSection() {
             <Heading as="h2" className="text-white text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-medium tracking-[0.015em] mb-4 sm:mb-6">
               Trusted by 30+ clients
             </Heading>
-            <Text className="text-white/85 font-normal text-sm sm:text-base max-w-xl mx-auto">
+            <Text className="text-white/85 font-normal text-sm sm:text-base max-w-xl">
               Thoughtful interiors delivered through clear communication, refined execution, and long-term design value.
             </Text>
+          </div>
+          
+          <div className="fade-up flex gap-3 shrink-0">
+            <button 
+              onClick={() => scroll('left')}
+              className="w-12 h-12 rounded-full border border-white/20 flex items-center justify-center text-white hover:bg-white hover:text-base-dark transition-colors"
+              aria-label="Previous testimonial"
+            >
+              <ChevronLeft className="w-5 h-5" />
+            </button>
+            <button 
+              onClick={() => scroll('right')}
+              className="w-12 h-12 rounded-full border border-white/20 flex items-center justify-center text-white hover:bg-white hover:text-base-dark transition-colors"
+              aria-label="Next testimonial"
+            >
+              <ChevronRight className="w-5 h-5" />
+            </button>
           </div>
         </div>
       </Container>
 
-      {/* Marquee Wrapper with Blur/Fade Gradients */}
-      <div className="relative w-full overflow-hidden">
-        {/* Left Blur & Fade Edge Overlay */}
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute left-0 top-0 bottom-0 w-8 sm:w-20 md:w-36 lg:w-44 z-10 bg-linear-to-r from-base-dark via-base-dark/80 to-transparent backdrop-blur-[2px]"
-        />
-
-        {/* Right Blur & Fade Edge Overlay */}
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute right-0 top-0 bottom-0 w-8 sm:w-20 md:w-36 lg:w-44 z-10 bg-linear-to-l from-base-dark via-base-dark/80 to-transparent backdrop-blur-[2px]"
-        />
-
-        {/* Scrolling Track Moving Right to Left */}
-        <div
-          className="w-full overflow-hidden"
-          style={{
-            WebkitMaskImage: "linear-gradient(to right, transparent 0%, black 5%, black 95%, transparent 100%)",
-            maskImage: "linear-gradient(to right, transparent 0%, black 5%, black 95%, transparent 100%)",
-          }}
+      <div className="w-full relative px-4 md:px-8 max-w-[1400px] mx-auto">
+        <div 
+          ref={scrollRef}
+          className="flex items-stretch gap-4 sm:gap-6 md:gap-8 overflow-x-auto snap-x snap-mandatory pb-8 pt-4 scrollbar-hide"
+          style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
         >
-          <div className="animate-marquee-slow flex items-stretch gap-4 sm:gap-6 md:gap-8 whitespace-normal py-4 pl-4">
-            {testimonials.map((item, i) => (
-              <div
-                key={`${item.author}-${i}`}
-                className="w-70 sm:w-85 md:w-95 shrink-0 flex flex-col justify-between bg-[#FAFAFA] rounded-2xl p-6 sm:p-8 md:p-9 shadow-sm transition-transform duration-300 hover:scale-[1.01]"
-              >
-                <div>
-                  <div className="flex gap-1.5 mb-5">
-                    {[...Array(5)].map((_, index) => (
-                      <Star key={index} className="w-4 h-4 text-[#FACC15] fill-[#FACC15]" />
-                    ))}
-                  </div>
-                  
-                  <p className="text-sm sm:text-[15px] md:text-base leading-relaxed font-normal text-[#111827] mb-6 font-sans">
-                    "{item.text}"
-                  </p>
+          {testimonials.map((item, i) => (
+            <div
+              key={`${item.author}-${i}`}
+              className="w-[85vw] sm:w-[400px] shrink-0 snap-center flex flex-col justify-between bg-[#FAFAFA] rounded-2xl p-6 sm:p-8 shadow-sm transition-transform duration-300 hover:scale-[1.02]"
+            >
+              <div>
+                <div className="flex gap-1.5 mb-5">
+                  {[...Array(5)].map((_, index) => (
+                    <Star key={index} className="w-4 h-4 text-[#FACC15] fill-[#FACC15]" />
+                  ))}
                 </div>
                 
-                <div>
-                  <div className="w-12 border-t border-gray-200 mb-5" />
-                  
-                  <div className="flex items-center gap-3.5">
-                    <img 
-                      src={item.image} 
-                      alt={item.author} 
-                      className="w-10 h-10 sm:w-11 sm:h-11 rounded-full object-cover shrink-0"
-                      loading="lazy"
-                      decoding="async"
-                    />
-                    <div className="flex flex-col">
-                      <span className="font-semibold text-[#111827] text-sm sm:text-[15px]">{item.author}</span>
-                      <span className="text-gray-500 text-xs sm:text-sm mt-0.5">{item.title}</span>
-                    </div>
+                <p className="text-sm sm:text-[15px] md:text-base leading-relaxed font-normal text-[#111827] mb-6 font-sans">
+                  "{item.text}"
+                </p>
+              </div>
+              
+              <div>
+                <div className="w-12 border-t border-gray-200 mb-5" />
+                
+                <div className="flex items-center gap-3.5">
+                  <img 
+                    src={item.image} 
+                    alt={item.author} 
+                    className="w-10 h-10 sm:w-11 sm:h-11 rounded-full object-cover shrink-0"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                  <div className="flex flex-col">
+                    <span className="font-semibold text-[#111827] text-sm sm:text-[15px]">{item.author}</span>
+                    <span className="text-gray-500 text-xs sm:text-sm mt-0.5">{item.title}</span>
                   </div>
                 </div>
               </div>
-            ))}
-          </div>
+            </div>
+          ))}
         </div>
       </div>
     </Section>

@@ -84,17 +84,18 @@ export function Footer() {
 
         {/* Bottom */}
         <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-          <Link to="/" className="inline-flex items-center gap-3 group transition-opacity hover:opacity-90" aria-label="D Mimo Architects">
-            <img
-              src="/icons/favicon.webp"
+          <Link to="/" className="inline-flex items-center gap-3 group focus:outline-none" aria-label="D Mimo Architects">
+            <img src="/icons/favicon.webp"
               alt="D Mimo Logo Mark"
-              className="h-10 w-10 object-contain shrink-0"
+              className="h-9 w-9 sm:h-10 sm:w-10 object-contain drop-shadow-sm shrink-0 transition-transform duration-300 group-hover:scale-105"
+              loading="lazy" decoding="async" 
+              width="40" height="40"
             />
             <div className="flex flex-col justify-center select-none">
-              <span className="text-[19px] font-bold tracking-[0.08em] font-cinzel text-white leading-none">
+              <span className="text-[18px] sm:text-[20px] font-bold tracking-[0.08em] font-cinzel text-white leading-none transition-colors duration-300">
                 D MIMO
               </span>
-              <span className="text-[9px] font-semibold tracking-[0.32em] font-sans uppercase mt-1 text-white/60 leading-none">
+              <span className="text-[9px] sm:text-[10px] font-semibold tracking-[0.32em] font-sans uppercase mt-1 text-white/80 leading-none transition-colors duration-300">
                 ARCHITECTS
               </span>
             </div>

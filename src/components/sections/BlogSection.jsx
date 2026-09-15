@@ -4,37 +4,13 @@ import { Heading } from "@/components/primitives/Heading";
 import { Text } from "@/components/primitives/Text";
 import { Section } from "@/components/primitives/Section";
 import { Link } from "react-router-dom";
+import { blogList } from "@/data/blogData";
 
-const posts = [
-  {
-    title: "5 Principles of Timeless Interior Design",
-    excerpt: "What separates spaces that age gracefully from those that feel dated in five years? These five core principles guide our design decisions.",
-    image: "https://images.unsplash.com/photo-1618220179428-22790b461013?auto=format&fit=crop&q=80&w=800",
-    slug: "timeless-interior-design-principles",
-    date: "Aug 2025",
-    readTime: "5 min"
-  },
-  {
-    title: "How to Choose the Right Material Palette",
-    excerpt: "Materials set the emotional tone of a space. Learn how we approach palette-building — from stone textures to fabric weights.",
-    image: "https://images.unsplash.com/photo-1600566753376-12c8ab7fb75b?auto=format&fit=crop&q=80&w=800",
-    slug: "choosing-material-palette",
-    date: "Jul 2025",
-    readTime: "4 min"
-  },
-  {
-    title: "Small Spaces, Bold Outcomes",
-    excerpt: "Compact doesn't mean compromise. We explore how thoughtful spatial planning transforms tight layouts into extraordinary living.",
-    image: "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&q=80&w=800",
-    slug: "small-spaces-bold-outcomes",
-    date: "Jun 2025",
-    readTime: "6 min"
-  }
-];
-
-export function BlogSection() {
+export function BlogSection({ showButton = true, showAll = false }) {
   const headerRef = useInView({ margin: "-100px" });
   const gridRef = useInView({ margin: "-80px" });
+
+  const posts = showAll ? blogList : blogList.slice(0, 3);
 
   return (
     <Section className="cv-auto bg-[#fafafa] border-t border-neutral-200/80">
@@ -54,31 +30,33 @@ export function BlogSection() {
               Thoughts on design, process, and what makes great spaces.
             </Text>
           </div>
-          <div className="fade-up delay-2">
-            <Link
-              to="/blog"
-              className="inline-flex items-center gap-2 rounded-full px-6 py-2.5 border border-neutral-300 bg-white text-neutral-900 font-semibold hover:border-neutral-900 hover:bg-neutral-900 hover:text-white transition-all shadow-xs text-sm"
-            >
-              All posts
-            </Link>
-          </div>
+          {showButton && (
+            <div className="fade-up delay-2">
+              <Link
+                to="/blog"
+                className="inline-flex items-center gap-2 rounded-full px-6 py-2.5 border border-neutral-300 bg-white text-neutral-900 font-semibold hover:border-neutral-900 hover:bg-neutral-900 hover:text-white transition-all shadow-xs text-sm"
+              >
+                All posts
+              </Link>
+            </div>
+          )}
         </div>
 
         <div ref={gridRef} className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {posts.map((post, i) => (
             <div
               key={post.slug}
-              className={`fade-up delay-${i + 1}`}
+              className={`fade-up delay-${i + 1} group block`}
             >
               <Link
                 to={`/blog/${post.slug}`}
-                className="group cursor-pointer flex flex-col bg-white p-4 pb-8 rounded-sm shadow-sm hover:shadow-md transition-shadow"
+                className="cursor-pointer flex flex-col bg-white p-4 pb-8 rounded-sm shadow-sm group-hover:shadow-md group-hover:-translate-y-2 transition-all duration-500 ease-out"
               >
                 <div className="relative overflow-hidden mb-6 aspect-4/3 rounded-sm">
                   <img
                     src={post.image}
                     alt={post.title}
-                    className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                    className="w-full h-full object-cover"
                     loading="lazy"
                     decoding="async"
                     width="800"

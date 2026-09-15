@@ -25,17 +25,19 @@ export function AboutSection() {
           {/* Left: Image */}
           <div
             ref={imgRef}
-            className="fade-up order-2 lg:order-1 relative overflow-hidden rounded-2xl shadow-sm aspect-4/5 bg-gray-100 max-h-145 w-full"
+            className="fade-up order-2 lg:order-1 relative w-full lg:w-11/12 lg:mx-auto group block"
           >
-            <img
-              src="https://images.unsplash.com/photo-1691036562015-56ebf6648f8c?w=1000&auto=format&fit=crop&q=80"
-              alt="Refined living room interior with terracotta armchair"
-              className="w-full h-full object-cover transition-transform duration-700 hover:scale-105"
-              loading="lazy"
-              decoding="async"
-              width="1000"
-              height="1250"
-            />
+            <div className="relative overflow-hidden rounded-2xl shadow-sm aspect-4/5 bg-gray-100 max-h-145 w-full group-hover:-translate-y-2 transition-all duration-500 ease-out cursor-pointer">
+              <img
+                src="/images/works/diagnostic/image2.webp"
+                alt="Refined living room interior with terracotta armchair"
+                className="w-full h-full object-cover"
+                loading="lazy"
+                decoding="async"
+                width="1000"
+                height="1250"
+              />
+            </div>
           </div>
 
           {/* Right: Text */}

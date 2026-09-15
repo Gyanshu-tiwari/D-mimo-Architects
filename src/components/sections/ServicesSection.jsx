@@ -16,7 +16,6 @@ export function ServicesSection() {
   useEffect(() => {
     if (!cardRef.current || !stickyColRef.current) return;
 
-    // Writes card height directly to the DOM — no React state, no re-render
     const syncHeight = () => {
       const h = cardRef.current?.offsetHeight;
       if (h && h > 100 && stickyColRef.current) {
@@ -24,55 +23,58 @@ export function ServicesSection() {
       }
     };
 
+    // Initial sync
     syncHeight();
+    
+    // Fallback: wait for images to load, then sync again
+    setTimeout(syncHeight, 100);
+    setTimeout(syncHeight, 500);
+    setTimeout(syncHeight, 1000);
 
-    // ResizeObserver watches the card for size changes (image loads, font shifts, etc.)
-    // and updates the sticky column height directly in the DOM — zero React renders.
-    const ro = new ResizeObserver(syncHeight);
-    ro.observe(cardRef.current);
-    return () => ro.disconnect();
+    window.addEventListener('resize', syncHeight);
+    return () => window.removeEventListener('resize', syncHeight);
   }, []);
 
   const services = [
     {
       number: "01",
-      title: "Interior Design",
-      description:
-        "We design interiors that are simple, functional, and aligned with how the space is used every day.",
-      scope: "Layout planning · Material selection · Furniture guidance",
-      image:
-        "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&q=80&w=1000",
-      link: "/contact"
-    },
-    {
-      number: "02",
       title: "Architecture",
       description:
         "We create structures that are practical, well-planned, and built to last through thoughtful detailing.",
       scope: "Concept design · Floor plans · Working drawings",
       image:
         "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=80&w=1000",
-      link: "/contact"
+      link: "/projects?category=Architecture"
+    },
+    {
+      number: "02",
+      title: "Interior Design",
+      description:
+        "We design interiors that are simple, functional, and aligned with how the space is used every day.",
+      scope: "Layout planning · Material selection · Furniture guidance",
+      image:
+        "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&q=80&w=1000",
+      link: "/projects?category=Interior Design"
     },
     {
       number: "03",
-      title: "Space Planning",
+      title: "Commercial",
       description:
-        "We organize layouts to improve flow, usability, natural daylighting, and overall spatial efficiency.",
-      scope: "Zoning layout · Circulation flow · Space optimization",
+        "We craft engaging commercial spaces that enhance brand identity, optimize workflow, and create memorable customer experiences.",
+      scope: "Retail design · Office layouts · Brand integration",
       image:
-        "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&q=80&w=1000",
-      link: "/contact"
+        "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&q=80&w=1000",
+      link: "/projects?category=Commercial"
     },
     {
       number: "04",
-      title: "Renovation",
+      title: "Residential",
       description:
-        "We update existing spaces to improve layout, architectural character, and overall material longevity.",
-      scope: "Site assessment · Layout updates · Material upgrades",
+        "We design tailored homes that reflect your lifestyle, focusing on comfort, aesthetics, and everyday functionality.",
+      scope: "Custom homes · Villas · Residential complexes",
       image:
-        "https://images.unsplash.com/photo-1600566753376-12c8ab7fb75b?auto=format&fit=crop&q=80&w=1000",
-      link: "/contact"
+        "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&q=80&w=1000",
+      link: "/projects?category=Residential"
     }
   ];
 
@@ -138,11 +140,11 @@ export function ServicesSection() {
                     zIndex: i + 10,
                     marginBottom: isLast ? 0 : `${CARD_GAP}px`,
                   }}
-                  className="sticky transition-all duration-300"
+                  className="sticky transition-all duration-300 group block"
                 >
                   <Link
                     to={service.link}
-                    className="group block bg-white rounded-3xl border border-neutral-200/90 shadow-[0_12px_36px_-10px_rgba(0,0,0,0.08)] hover:shadow-[0_20px_45px_-10px_rgba(0,0,0,0.12)] p-6 sm:p-8 md:p-10 transition-all duration-500"
+                    className="block bg-white rounded-3xl border border-neutral-200/90 shadow-[0_12px_36px_-10px_rgba(0,0,0,0.08)] group-hover:shadow-[0_20px_45px_-10px_rgba(0,0,0,0.12)] group-hover:-translate-y-2 p-6 sm:p-8 md:p-10 transition-all duration-500 ease-out"
                   >
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-10 items-start">
                       {/* Service Details */}
@@ -164,8 +166,19 @@ export function ServicesSection() {
                           </p>
                         </div>
 
-                        <div className="text-xs sm:text-sm text-neutral-500 font-normal tracking-wide pt-4 border-t border-gray-100">
-                          {service.scope}
+                        <div className="flex items-center pt-4 border-t border-gray-100 mt-auto">
+                          <span className="inline-flex items-center gap-2 text-sm font-semibold text-neutral-900 group-hover:text-gray-500 transition-colors underline whitespace-nowrap">
+                            View Projects
+                            <svg
+                              className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              strokeWidth="2"
+                            >
+                              <path d="M5 12h14M12 5l7 7-7 7" />
+                            </svg>
+                          </span>
                         </div>
                       </div>
 
@@ -174,7 +187,7 @@ export function ServicesSection() {
                         <img
                           src={service.image}
                           alt={service.title}
-                          className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                          className="w-full h-full object-cover transition-transform duration-700 ease-out"
                           loading="lazy"
                           decoding="async"
                         />

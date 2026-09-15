@@ -5,33 +5,11 @@ import { Text } from "@/components/primitives/Text";
 import { Section } from "@/components/primitives/Section";
 import { Button } from "@/components/primitives/Button";
 import { Link } from "react-router-dom";
+import { ArrowRight } from "lucide-react";
 
-const works = [
-  {
-    title: "Serene Loft",
-    desc: "Open-plan loft styled for clarity & spatial breathing.",
-    image: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&q=80&w=1200",
-    link: "/projects/serene-loft"
-  },
-  {
-    title: "Atelier Living",
-    desc: "Refined interior blending functionality with elegance.",
-    image: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&q=80&w=1200",
-    link: "/projects/atelier-living"
-  },
-  {
-    title: "Luma Renovation",
-    desc: "Full-home renovation enhancing layout & harmony.",
-    image: "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&q=80&w=1200",
-    link: "/projects/luma-renovation"
-  },
-  {
-    title: "Nordic Living",
-    desc: "Soft interiors with clean lines & natural materials.",
-    image: "https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&q=80&w=1200",
-    link: "/projects/nordic-living"
-  }
-];
+import { getFeaturedProjectsArray } from "@/data/projectsData";
+
+const works = getFeaturedProjectsArray();
 
 export function WorksSection() {
   const headerRef = useInView({ margin: "-100px" });
@@ -60,24 +38,28 @@ export function WorksSection() {
           </div>
         </div>
 
-        {/* Grid — ref on parent, fade-up + delay-N on children */}
-        <div ref={gridRef} className="grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-16">
+        {/* Standard Grid — ref on parent, fade-up + delay-N on children */}
+        <div ref={gridRef} className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 lg:gap-16">
           {works.map((work, i) => (
-            <div key={work.title} className={`fade-up delay-${i + 1}`}>
-              <Link to={work.link} className="group cursor-pointer flex flex-col h-full">
-                <div className="relative overflow-hidden aspect-4/3 mb-6">
+            <div key={work.title} className={`fade-up delay-${i + 1} group block`}>
+              <Link to={work.link} className="cursor-pointer flex flex-col h-full group-hover:-translate-y-2 transition-all duration-500 ease-out">
+                <div className="relative overflow-hidden aspect-[4/3] mb-6 rounded-lg bg-gray-100">
                   <img
                     src={work.image}
                     alt={work.title}
-                    className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                    className="w-full h-full object-cover"
                     loading="lazy"
                     decoding="async"
-                    width="1200"
-                    height="900"
                   />
                 </div>
-                <Heading as="h5" className="mb-2 group-hover:text-gray-600 transition-colors">{work.title}</Heading>
-                <Text className="text-gray-600">{work.desc}</Text>
+                <div className="flex justify-between items-center">
+
+                <div>
+                  <Heading as="h5" className="mb-2 group-hover:text-gray-600 transition-colors">{work.title}</Heading>
+                  <Text className="text-gray-600 text-sm">{work.tags.join(" • ")}</Text>
+                </div>
+                <ArrowRight className="group-hover:-rotate-45 transition-all text-gray-400 group-hover:text-gray-900"/>
+                </div>
               </Link>
             </div>
           ))}

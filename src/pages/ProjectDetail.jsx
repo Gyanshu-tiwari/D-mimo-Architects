@@ -1,105 +1,29 @@
 import { useParams, Link } from "react-router-dom";
-import { useEffect, useRef } from "react";
 import { SEO } from "@/components/SEO";
 import { Section } from "@/components/primitives/Section";
 import { Container } from "@/components/primitives/Container";
 import { Heading } from "@/components/primitives/Heading";
 import { Text } from "@/components/primitives/Text";
-import { motion, useScroll, useTransform } from "motion/react";
 import { ArrowRight } from "lucide-react";
+import { useInView } from "@/hooks/useInView";
+import { projectsData } from "@/data/projectsData";
 
-// Mock Project Database
-const projectsData = {
-  "serene-loft": {
-    title: "Serene Loft",
-    desc: "Open-plan loft styled for clarity & spatial breathing.",
-    heroImage: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&q=80&w=2880",
-    client: "Private Client",
-    scope: "Full Interior Architecture",
-    year: "2025",
-    location: "New York City",
-    challenge: "The primary challenge was to transform an industrial, echo-prone shell into an intimate, serene living space without losing the architectural heritage of the original loft. We focused on introducing natural light deep into the floorplan through glass partitions and utilizing acoustically absorbing natural materials.",
-    gallery: [
-      "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&q=80&w=1200",
-      "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=80&w=1200",
-      "https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&q=80&w=1200",
-      "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&q=80&w=1200"
-    ],
-    next: "/projects/atelier-living",
-    nextTitle: "Atelier Living"
-  },
-  "atelier-living": {
-    title: "Atelier Living",
-    desc: "Refined interior blending functionality with elegance.",
-    heroImage: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&q=80&w=2880",
-    client: "Atelier Group",
-    scope: "Residential Design",
-    year: "2024",
-    location: "London, UK",
-    challenge: "We set out to create a cohesive design language that seamlessly integrates modern living requirements with a classic, timeless aesthetic. Custom joinery and bespoke lighting fixtures were implemented to enhance the sense of bespoke elegance throughout the residence.",
-    gallery: [
-      "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&q=80&w=1200",
-      "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&q=80&w=1200",
-      "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=80&w=1200",
-      "https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&q=80&w=1200"
-    ],
-    next: "/projects/luma-renovation",
-    nextTitle: "Luma Renovation"
-  },
-  "luma-renovation": {
-    title: "Luma Renovation",
-    desc: "Full-home renovation enhancing layout & harmony.",
-    heroImage: "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&q=80&w=2880",
-    client: "Luma Family",
-    scope: "Complete Renovation",
-    year: "2023",
-    location: "San Francisco, CA",
-    challenge: "The Luma project required a complete gut renovation to open up a cramped, segmented layout. By removing non-load-bearing walls and establishing a central, flowing living axis, we maximized natural light and fostered a deeper connection between the interior and the surrounding landscape.",
-    gallery: [
-      "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&q=80&w=1200",
-      "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&q=80&w=1200",
-      "https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&q=80&w=1200",
-      "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=80&w=1200"
-    ],
-    next: "/projects/nordic-living",
-    nextTitle: "Nordic Living"
-  },
-  "nordic-living": {
-    title: "Nordic Living",
-    desc: "Soft interiors with clean lines & natural materials.",
-    heroImage: "https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&q=80&w=2880",
-    client: "Nordic Collective",
-    scope: "Interior Styling",
-    year: "2024",
-    location: "Copenhagen, DK",
-    challenge: "Drawing inspiration from traditional Scandinavian principles, this project emphasized minimalism, warmth, and high-quality craftsmanship. The challenge was maintaining a minimalist aesthetic without allowing the space to feel stark or uninviting, achieved through rich textures and muted, earthy tones.",
-    gallery: [
-      "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=80&w=1200",
-      "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&q=80&w=1200",
-      "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&q=80&w=1200",
-      "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&q=80&w=1200"
-    ],
-    next: "/projects/serene-loft",
-    nextTitle: "Serene Loft"
-  }
-};
-
-export default function ProjectDetail() {
+/**
+ * ProjectDetailWrapper — sets key={slug} so React fully unmounts the
+ * previous page and mounts a fresh one on every navigation. This is the
+ * correct React idiom for resetting all component state (refs, observers,
+ * scroll position) without any manual DOM manipulation or resetKey hacks.
+ */
+export default function ProjectDetailWrapper() {
   const { slug } = useParams();
+  return <ProjectDetail key={slug} slug={slug} />;
+}
+
+function ProjectDetail({ slug }) {
   const project = projectsData[slug];
-  
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [slug]);
-  
-  const heroRef = useRef(null);
-  const { scrollYProgress } = useScroll({
-    target: heroRef,
-    offset: ["start start", "end start"]
-  });
-  
-  const y = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
-  const opacity = useTransform(scrollYProgress, [0, 1], [1, 0]);
+
+  const metaRef = useInView({ margin: "-10%" });
+  const galleryRef = useInView({ margin: "-10%" });
 
   // If project is not found, fallback to 404 styling
   if (!project) {
@@ -119,45 +43,39 @@ export default function ProjectDetail() {
         description={project.desc}
       />
       
-      {/* Hero Parallax */}
-      <div ref={heroRef} className="relative h-[70vh] md:h-[85vh] overflow-hidden bg-base-dark mt-20">
-        <motion.div style={{ y }} className="parallax-hero absolute inset-0 w-full h-[120%] top-[-10%]">
-          <img 
+      {/* Hero */}
+      <div className="relative h-[70vh] md:h-[85vh] overflow-hidden bg-base-dark">
+        <div className="absolute inset-0 w-full h-full top-0">
+          <img         
             src={project.heroImage} 
             alt={project.title} 
-            className="w-full h-full object-cover"
+            className="w-full h-full object-cover object-top"
             loading="eager"
             fetchPriority="high"
             decoding="async"
           />
           <div className="absolute inset-0 bg-black/20"></div>
-        </motion.div>
+        </div>
         
         <Container className="relative h-full flex flex-col justify-end pb-16 md:pb-24">
-          <motion.div style={{ opacity }}>
+          <div className="fade-up is-visible">
             <Heading as="h1" className="text-white mb-4 drop-shadow-md">
               {project.title}
             </Heading>
             <Text className="text-white/80 max-w-xl text-lg md:text-xl drop-shadow-md">
               {project.desc}
             </Text>
-          </motion.div>
+          </div>
         </Container>
       </div>
 
       {/* Project Metadata & Challenge */}
-      <Section className="py-24">
+      <Section className="py-24" ref={metaRef}>
         <Container>
           <div className="flex flex-col lg:flex-row gap-16 lg:gap-24">
             
             {/* Left Col: Grid Info */}
-            <motion.div 
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{ duration: 0.6 }}
-              className="lg:w-1/3"
-            >
+            <div className="fade-up lg:w-1/3">
               <div className="grid grid-cols-2 gap-x-8 gap-y-12">
                 <div>
                   <Text className="text-sm font-semibold tracking-widest uppercase mb-2 text-gray-500">Client</Text>
@@ -176,46 +94,44 @@ export default function ProjectDetail() {
                   <Text className="font-medium text-black">{project.location}</Text>
                 </div>
               </div>
-            </motion.div>
+            </div>
 
-            {/* Right Col: Description */}
-            <motion.div 
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              className="lg:w-2/3"
-            >
+            {/* Right Col: Challenge Description */}
+            <div className="fade-up delay-1 lg:w-2/3">
               <Text className="text-[20px] md:text-[24px] leading-relaxed text-black font-medium">
-                "{project.challenge}"
+                {project.challenge}
               </Text>
-            </motion.div>
+            </div>
           </div>
         </Container>
       </Section>
 
       {/* Gallery Grid */}
-      <Section className="pt-0 pb-32">
+      <Section className={project.next ? "pt-0 pb-32" : "pt-0 pb-16 md:pb-24"} ref={galleryRef}>
         <Container>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
-            {project.gallery.map((imgSrc, i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-100px" }}
-                transition={{ duration: 0.6, delay: (i % 2) * 0.1 }}
-                className={`overflow-hidden rounded-lg shadow-sm ${i % 3 === 0 ? 'md:col-span-2 aspect-21/9' : 'aspect-square'}`}
-              >
-                <img 
-                  src={imgSrc} 
-                  alt={`${project.title} Gallery Image ${i + 1}`}
-                  className="w-full h-full object-cover hover:scale-105 transition-transform duration-1000 ease-out"
-                  loading="lazy"
-                  decoding="async"
-                />
-              </motion.div>
-            ))}
+          <div className="columns-1 md:columns-2 gap-8 md:gap-10 lg:gap-12 space-y-8 md:space-y-10 lg:space-y-12">
+            {project.gallery.map((imgSrc, i) => {
+              // Eager-load the top image in BOTH columns for fast perceived LCP
+              const mid = Math.ceil(project.gallery.length / 2);
+              const isTopOfColumn = i === 0 || i === mid;
+              return (
+                <div
+                  key={i}
+                  className={`fade-up delay-${(i % 3) + 1} group block break-inside-avoid`}
+                >
+                  <div className="overflow-hidden rounded-lg shadow-sm group-hover:-translate-y-2 transition-all duration-500 ease-out cursor-pointer">
+                    <img 
+                      src={imgSrc} 
+                      alt={`${project.title} — Image ${i + 1}`}
+                      className="w-full h-auto"
+                      loading={isTopOfColumn ? "eager" : "lazy"}
+                      fetchPriority={isTopOfColumn ? "high" : "auto"}
+                      decoding="async"
+                    />
+                  </div>
+                </div>
+              );
+            })}
           </div>
         </Container>
       </Section>

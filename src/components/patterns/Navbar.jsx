@@ -17,13 +17,14 @@ export function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const location = useLocation();
   const isHomePage = location.pathname === '/';
-  
-  // Adjust state during render to close mobile menu on route change
-  const [prevPathname, setPrevPathname] = useState(location.pathname);
-  if (location.pathname !== prevPathname) {
-    setPrevPathname(location.pathname);
-    if (mobileMenuOpen) setMobileMenuOpen(false);
-  }
+
+  // Close mobile menu on route change — useEffect is the correct place
+  // for side effects that respond to prop/state changes.
+  // (Calling setState during render is a React anti-pattern that can cause
+  // cascading re-renders and strange behavior in Strict Mode.)
+  useEffect(() => {
+    setMobileMenuOpen(false);
+  }, [location.pathname]);
 
   const handleLinkClick = (e, href) => {
     if (href.startsWith("/#") && location.pathname === "/") {
@@ -52,14 +53,16 @@ export function Navbar() {
   }, []);
 
   // Determine theme based on page and scroll
-  const isDarkTheme = isHomePage && !isScrolled;
+  const isProjectDetail = location.pathname.startsWith('/projects/') && location.pathname !== '/projects';
+  const hasDarkHero = isHomePage || isProjectDetail;
+  const isDarkTheme = hasDarkHero && !isScrolled;
 
   return (
     <>
       <header
         className={cn(
           "font-display fixed top-0 left-0 right-0 z-50 transition-all duration-300",
-          isScrolled ? "py-4 bg-white/80 backdrop-blur-md shadow-sm" : "py-6 bg-transparent"
+          isScrolled ? "py-3 bg-white/80 backdrop-blur-md shadow-sm" : "py-4 bg-transparent"
         )}
       >
         <Container className="flex items-center justify-between">
@@ -77,6 +80,10 @@ export function Navbar() {
                 src="/icons/favicon.webp"
                 alt="D Mimo Logo Mark"
                 className="h-9 w-9 sm:h-10 sm:w-10 object-contain drop-shadow-sm shrink-0 transition-transform duration-300 group-hover:scale-105"
+                loading="eager"
+                decoding="async"
+                width="40"
+                height="40"
               />
               <div className="flex flex-col justify-center select-none">
                 <span
@@ -173,10 +180,10 @@ export function Navbar() {
                 }}
                 aria-label="D Mimo Architects"
               >
-                <img
-                  src="/icons/favicon.webp"
+                <img src="/icons/favicon.webp"
                   alt="D Mimo Logo Mark"
                   className="h-10 w-10 object-contain shrink-0"
+                  loading="lazy" decoding="async" 
                 />
                 <div className="flex flex-col justify-center select-none">
                   <span className="text-[20px] font-bold tracking-[0.08em] font-cinzel text-neutral-900 leading-none">

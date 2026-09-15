@@ -83,7 +83,7 @@ export function AwardsSection() {
             </Text>
 
             <Heading as="h2" className="text-3xl sm:text-4xl lg:text-5xl font-medium tracking-[0.015em] text-neutral-900 leading-[1.1]">
-              Award-winning design practice.
+              Achievements
             </Heading>
 
             <Text className="text-gray-600 text-base sm:text-lg max-w-2xl mt-4 font-normal leading-relaxed">

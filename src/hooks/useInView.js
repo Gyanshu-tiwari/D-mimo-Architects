@@ -15,6 +15,10 @@ import { useEffect, useRef } from 'react';
  *      2. ALL descendants with 'fade-up', 'fade-left', or 'fade-scale' classes
  *         (handles stagger groups — children animate when parent enters view)
  *
+ * NOTE: For components that need animation reset on navigation (e.g. ProjectDetail),
+ * use key={slug} on the component to unmount/remount it cleanly. This is the
+ * correct React approach — no manual DOM manipulation needed here.
+ *
  * USAGE:
  *   // Single element:
  *   const ref = useInView();

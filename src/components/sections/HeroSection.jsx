@@ -13,7 +13,7 @@ export function HeroSection() {
           CSS @keyframes runs on the browser's compositor thread with zero JS involvement. */}
       <div className="absolute inset-0 z-0 hero-bg-zoom">
         <img
-          src="https://images.unsplash.com/photo-1664711942326-2c3351e215e6?q=70&w=1600&auto=format&fit=crop"
+          src="/images/works/pilgrim/image1.webp"
           alt="Refined interior space by D Mimo Architects"
           className="w-full h-full object-cover opacity-60"
           loading="eager"

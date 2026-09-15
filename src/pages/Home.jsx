@@ -1,6 +1,5 @@
 import { SEO } from "@/components/SEO";
 import { HeroSection } from "@/components/sections/HeroSection";
-import { LogosSection } from "@/components/sections/LogosSection";
 import { AboutSection } from "@/components/sections/AboutSection";
 import { ServicesSection } from "@/components/sections/ServicesSection";
 import { PhilosophySection } from "@/components/sections/PhilosophySection";
@@ -22,7 +21,6 @@ export default function Home() {
         keywords="interior design, modern design studio, home renovation, space planning, commercial interiors"
       />
       <HeroSection />
-      <LogosSection />
       <AboutSection />
       <ServicesSection />
       <PhilosophySection />

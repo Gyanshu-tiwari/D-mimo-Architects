@@ -17,7 +17,7 @@ export default function Blog() {
           <Heading as="h1" className="mb-8">Blog & Insights</Heading>
         </Container>
       </Section>
-      <BlogSection />
+      <BlogSection showButton={false} showAll={true} />
     </div>
   );
 }

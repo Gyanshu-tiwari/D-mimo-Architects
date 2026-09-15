@@ -16,7 +16,7 @@ export default function Contact() {
     email: "",
     phone: "",
     service: "",
-    message: ""
+    project_details: ""
   });
   const [acceptedTerms, setAcceptedTerms] = useState(false);
   const [shake, setShake] = useState(false);
@@ -45,7 +45,7 @@ export default function Contact() {
           email: formData.email,
           phone: formData.phone,
           service: formData.service,
-          message: formData.message,
+          project_details: formData.project_details,
         },
         import.meta.env.VITE_PUBLIC_KEY
       );
@@ -216,10 +216,10 @@ export default function Contact() {
                         required
                       >
                         <option value="" disabled className="text-gray-400">Select a service</option>
-                        <option value="Interior Design">Interior Design</option>
                         <option value="Architecture">Architecture</option>
-                        <option value="Space Planning">Space Planning</option>
-                        <option value="Renovation">Renovation</option>
+                        <option value="Interior Design">Interior Design</option>
+                        <option value="Commercial">Commercial</option>
+                        <option value="Residential">Residential</option>
                         <option value="Others">Others</option>
                       </select>
                       <ChevronDown className="absolute right-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" />
@@ -228,12 +228,12 @@ export default function Contact() {
 
                   {/* Message */}
                   <div className="flex flex-col gap-2">
-                    <label htmlFor="message" className="text-sm font-medium text-gray-700">Project Details</label>
+                    <label htmlFor="project_details" className="text-sm font-medium text-gray-700">Project Details</label>
                     <textarea 
-                      id="message" 
-                      name="message"
+                      id="project_details" 
+                      name="project_details"
                       rows={4} 
-                      value={formData.message}
+                      value={formData.project_details}
                       onChange={handleChange}
                       placeholder="Tell us about your project, timeline, and requirements..."
                       className="bg-white border border-gray-200 px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-black transition-shadow resize-none text-sm placeholder-neutral-400" 
